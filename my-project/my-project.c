@@ -12,7 +12,8 @@ char outstr3[] = "hhuhu";
 void print_str(char* str, int strlen);
 static inline void write_byte(uint8_t b); 
 static inline void write_bit(uint8_t val);
-
+void wait(void);
+void shortwait(void);
 
 static inline void write_bit(uint8_t val)
 {
@@ -22,10 +23,13 @@ static inline void write_bit(uint8_t val)
 	}else {
 		gpio_clear(GPIOB, DATA_DATA);
 	}
-	wait();
-
+	shortwait();
+	shortwait();
+	shortwait();
 	gpio_toggle(GPIOB, DATA_CLK);
-	wait();
+	shortwait();
+	shortwait();
+	shortwait();
 
 }
 
@@ -39,23 +43,42 @@ static inline void write_byte(uint8_t b)
 	write_bit(b & (1 << 5));
 	write_bit(b & (1 << 6));
 	write_bit(b & (1 << 7));
+	shortwait();
+	shortwait();
+	shortwait();
+
+	shortwait();
+	shortwait();
+	shortwait();
 }
 
 void print_str(char* str, int strlen)
 {
 	uint16_t outPos = 0;
-	for(outPos = 0; outPos < strlen; outPos ++)
+	for(uint16_t outPos = 0; outPos < strlen; outPos ++)
 	{
 		write_byte(str[outPos]);
-		wait();
 
 	}
-	write_byte('^');
+	shortwait();
+	shortwait();
+
+	shortwait();
+	shortwait();
+	shortwait();
+	write_byte(0);
 }
 
 void wait()
 {
 	for(int i = 0; i < 1000000; i ++)
+	{
+		__asm__("nop");
+	}
+}
+void shortwait()
+{
+	for(int i = 0; i < 50; i ++)
 	{
 		__asm__("nop");
 	}
@@ -71,21 +94,29 @@ int main(void) {
 	gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, DATA_DATA);
 	
 	gpio_set(GPIOC,GPIO13);
-	// gpio_toggle(GPIOB,GPIO1);
 	for(int i = 0; i < 10000090; i ++)
 	{
 		__asm__("nop");
 	}
-	gpio_clear(GPIOC,GPIO13);
 
 	while(1)
 	{
-		// gpio_toggle(GPIOC,GPIO13);
-		print_str(outstr1, 5);
-		for(int i = 0; i < 10000000; i ++)
-		{
-			__asm__("nop");
-		}
+		gpio_toggle(GPIOC,GPIO13);
+		// gpio_toggle(GPIOB,DATA_CLK);
+		print_str("AFAFF", 3);
+		wait();
+		wait();
+		wait();
+		wait();
+		wait();
+		wait();
+		wait();
+		wait();
+		wait();
+		wait();
+		wait();
+		wait();
+		wait();
 		
 	}
 
