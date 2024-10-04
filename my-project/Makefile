@@ -1,11 +1,13 @@
-PROJECT = awesomesauce
+PROJECT = synthfirm
 BUILD_DIR = bin
 
-CFILES = my-project.c
+CFILES = src/main.c src/dac.c src/timer.c
 
 # TODO - you will need to edit these two lines!
 DEVICE=stm32f103c8
 OOCD_FILE = board/bluepill_f103c8.cfg
+
+LDLIBS += -lm 
 
 # You shouldn't have to edit anything below here.
 VPATH += $(SHARED_DIR)
