@@ -1,4 +1,5 @@
 #define STM32F1 1
+#define FIXPOINT_DECIMAL_PLACES 10000000
 
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/spi.h>
@@ -14,6 +15,8 @@
 volatile bool audioSampleEventInterruptFlag = false; //true if a interrupt occurs
 
 #define CLOCK_SPEED_HZ 	72000000f
+#define SAMPLE_FREQ_HZ	44100
+#define s_PER_TICK_FIX	227
 #define uS_PER_TICK 	22.7
 
 
@@ -52,7 +55,7 @@ int main(void) {
 	// init_input();
 
 	init_dac();
-	init_music(uS_PER_TICK);
+	init_music(s_PER_TICK_FIX);
 	set_volume(0.0145);
 	//set mode to output
 	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO13);

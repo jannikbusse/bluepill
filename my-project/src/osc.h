@@ -4,20 +4,20 @@
 #include <math.h>
 #include <stdint.h>
 #define M_PII 3.14159265358979323846
+#define M_PI_FIX 31415926
 
 struct OSC
 {
-    float phase;
-    float (*waveform)(float freq, float *phase);
-
+    uint32_t phase;
+    uint32_t (*waveform)(uint32_t freq, uint32_t *phase);
 };
 
 typedef struct OSC osc ;
-void init_oscs(float _us_per_tick);
-float osc_square_wave(float freq, float *phase);
-float osc_sine_wave(float freq, float *phase);
+void init_oscs(uint32_t s_per_tick_fix);
+uint32_t osc_square_wave(uint32_t freq, uint32_t *phase);
+uint32_t osc_sine_wave(uint32_t freq, uint32_t *phase);
 
-static inline float osc_play_osc(float freq, osc *o)
+static inline uint32_t osc_play_osc(uint32_t freq, osc *o)
 {
     return o->waveform(freq, &(o->phase));
 }

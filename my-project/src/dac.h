@@ -9,8 +9,6 @@
 #include <libopencm3/stm32/flash.h>
 #include <libopencm3/stm32/spi.h>
 
-//page 181 in manual. SPI1_REMAP = 0 for SPI functionality (?)
-
 #define SPI_PORT GPIOA
 
 #define SPI1_NSS  GPIO4
@@ -31,9 +29,10 @@ static inline __attribute__((always_inline)) void write_voltage_to_dac(uint16_t 
   write_to_data_register(power);
 }
 
-static inline __attribute__((always_inline)) void write_relative_voltage(double f)
+// range 0 - FIXPOINT_DECIMAL_PLACES
+static inline __attribute__((always_inline)) void write_relative_voltage(uint32_t voltage)
 {
-    write_voltage_to_dac((uint16_t)(4095.0f * f));
+    write_voltage_to_dac(((4095 * voltage))/FIXPOINT_DECIMAL_PLACES);
     
 }
 

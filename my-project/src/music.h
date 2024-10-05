@@ -13,8 +13,8 @@ extern volatile uint16_t idx;
 extern volatile uint16_t length;
 extern volatile float curFreq ;
 void music_advance_note(void);
-void init_music(float us_per_tick);
-void music_play(float frequency);
-void set_volume(float vol);
+void init_music(uint32_t us_per_tick);
+void music_play(uint32_t frequency);
+void set_volume(uint32_t vol);
 
 #endif
