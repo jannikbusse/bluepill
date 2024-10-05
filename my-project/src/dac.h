@@ -24,10 +24,17 @@ void init_dac(void);
 void write_to_data_register(uint16_t word);
 
 
-/// @brief Writes power to dac. 0 = 0 V, 4095=Vref
-/// @param power 
-void write_voltage_to_dac(uint16_t power);
+static inline __attribute__((always_inline)) void write_voltage_to_dac(uint16_t power)
+{
+  power &= ~(0b1111 << 12); //cut highest bytes
+  power |= (0b0011 << 12); //set config bits
+  write_to_data_register(power);
+}
 
-void write_relative_voltage(float f);
+static inline __attribute__((always_inline)) void write_relative_voltage(double f)
+{
+    write_voltage_to_dac((uint16_t)(4095.0f * f));
+    
+}
 
 #endif

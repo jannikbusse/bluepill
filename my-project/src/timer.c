@@ -11,7 +11,7 @@ void init_timer2() {
     // Set the prescaler to 7200 (PSC + 1), which divides the 72 MHz system clock by 7200
     timer_set_prescaler(TIM2, 0);
     // Set the auto-reload value to 10000, for a 1-second interval (10kHz / 10000 = 1Hz)
-    timer_set_period(TIM2, 543 - 1);
+    timer_set_period(TIM2, 1633 - 1);
     // Enable the update interrupt (this will fire an interrupt when the counter resets)
     timer_enable_irq(TIM2, TIM_DIER_UIE);
     timer_enable_counter(TIM2);
