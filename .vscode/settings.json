@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "gpio.h": "c",
+        "rcc.h": "c",
+        "flash.h": "c",
+        "dac.h": "c",
+        "spi.h": "c",
+        "timer.h": "c",
+        "nvic.h": "c",
+        "math.h": "c",
+        "stdint.h": "c",
+        "music.h": "c",
+        "osc.h": "c"
+    }
+}

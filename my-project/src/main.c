@@ -1,6 +1,5 @@
 #define STM32F1 1
 
-
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/spi.h>
 #include <libopencm3/stm32/gpio.h>
