@@ -1,6 +1,6 @@
 #include "input.h"
 
-
+bool pressed1 = false, pressed2 = false;
 
 void init_input()
 {
@@ -14,4 +14,11 @@ void init_input()
 bool inputPressed(uint32_t btn)
 {
     return gpio_get(GPIOA, btn);
+}
+
+void input_update()
+{
+    pressed1 = (inputPressed(INPUT1));
+    pressed2 = (inputPressed(INPUT2));
+
 }

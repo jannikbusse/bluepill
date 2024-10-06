@@ -1,6 +1,7 @@
 #ifndef __DAC__
 #define __DAC__
 
+
 #define SPI1_T_READY (SPI1_SR & (1 << 1))
 #define SPI1_BUSY (SPI1_SR & (1 << 7))
 
@@ -8,6 +9,7 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/flash.h>
 #include <libopencm3/stm32/spi.h>
+#include "common.h"
 
 #define SPI_PORT GPIOA
 
@@ -30,9 +32,9 @@ static inline __attribute__((always_inline)) void write_voltage_to_dac(uint16_t 
 }
 
 // range 0 - FIXPOINT_DECIMAL_PLACES
-static inline __attribute__((always_inline)) void write_relative_voltage(uint32_t voltage)
+static inline __attribute__((always_inline)) uint16_t dac_rel_to_abs_voltage(uint32_t voltage)
 {
-    write_voltage_to_dac(((4095 * voltage))/FIXPOINT_DECIMAL_PLACES);
+    return (((4095 * voltage))/FIXPOINT_DECIMAL_PLACES);
     
 }
 

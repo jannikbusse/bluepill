@@ -2,7 +2,7 @@
 
 void write_to_data_register(uint16_t word)
 {
-    while (!SPI1_T_READY) {}
+    // while (!SPI1_T_READY) {}
     gpio_clear(GPIOA, SPI1_SLAVE_SELECT_DAC);
     SPI1_DR = word;
     while (!SPI1_T_READY) {}

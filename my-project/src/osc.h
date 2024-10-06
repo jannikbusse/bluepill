@@ -3,8 +3,12 @@
 
 #include <math.h>
 #include <stdint.h>
-#define M_PII 3.14159265358979323846
-#define M_PI_FIX 31415926
+#include "common.h"
+
+//only needed for debugging 
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/spi.h>
+#include <libopencm3/stm32/gpio.h>
 
 struct OSC
 {

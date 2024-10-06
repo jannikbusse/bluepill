@@ -16,4 +16,5 @@ bin/src/input.o: src/input.c src/input.h \
  ../libopencm3/include/libopencm3/stm32/common/rcc_common_all.h \
  ../libopencm3/include/libopencm3/stm32/gpio.h \
  ../libopencm3/include/libopencm3/stm32/f1/gpio.h \
- ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h
+ ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
+ src/common.h

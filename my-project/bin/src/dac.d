@@ -25,4 +25,5 @@ bin/src/dac.o: src/dac.c src/dac.h \
  ../libopencm3/include/libopencm3/stm32/spi.h \
  ../libopencm3/include/libopencm3/stm32/f1/spi.h \
  ../libopencm3/include/libopencm3/stm32/common/spi_common_v1.h \
- ../libopencm3/include/libopencm3/stm32/common/spi_common_all.h
+ ../libopencm3/include/libopencm3/stm32/common/spi_common_all.h \
+ src/common.h

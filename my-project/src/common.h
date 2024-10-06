@@ -1,0 +1,10 @@
+#ifndef COM_H
+#define COM_H
+
+#define M_PII 3.14159265358979323846
+#define M_PI_FIX 31415926
+
+#define FIXPOINT_DECIMAL_PLACES 10000000
+
+
+#endif

@@ -30,7 +30,7 @@ bin/src/main.o: src/main.c ../libopencm3/include/libopencm3/stm32/rcc.h \
  ../libopencm3/include/libopencm3/stm32/common/timer_common_all.h \
  ../libopencm3/include/libopencm3/cm3/nvic.h \
  ../libopencm3/include/libopencm3/dispatch/nvic.h \
- ../libopencm3/include/libopencm3/stm32/f1/nvic.h src/dac.h \
+ ../libopencm3/include/libopencm3/stm32/f1/nvic.h src/dac.h src/common.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/math.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/sys/reent.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/_ansi.h \
