@@ -23,6 +23,7 @@ volatile bool inputSampleEventInterruptFlag = false;
 #define INPUT_EACH_N_SAMPLE		400 //roughly 100 times per second
 
 uint16_t sample_increment = 0;
+volatile uint16_t curVoltSignal = 0; //already filtered
 
 void init_clock(void);
 void init_clock()
@@ -35,6 +36,13 @@ void tim2_isr(void) {
     if (timer_get_flag(TIM2, TIM_SR_UIF)) {
         // Clear the interrupt flag
         timer_clear_flag(TIM2, TIM_SR_UIF);
+
+		if(!OUT_BUFFER_EMPTY)
+		{
+			write_voltage_to_dac(outputBuffer[bufferTail]);
+			curVoltSignal = outputBuffer[bufferTail++] & ~(0b1111<<12);
+		}
+
 		audioSampleEventInterruptFlag = true;
     }
 }
@@ -44,7 +52,6 @@ void tim2_isr(void) {
 //         timer_clear_flag(TIM3, TIM_SR_UIF); // Clear the interrupt flag
 // 		music_advance_note();
 // 		// gpio_toggle(GPIOC, GPIO13);  // Assuming an LED is connected to PC13
-
 // 	}
 // }
 
@@ -53,11 +60,11 @@ int main(void) {
 	rcc_periph_clock_enable(RCC_GPIOC);
 	rcc_periph_clock_enable(RCC_GPIOB);
 	rcc_periph_clock_enable(RCC_GPIOA);
+	
 
 	init_input();
 	init_dac();
 	init_music(s_PER_TICK_FIX);
-	set_volume(0.0145);
 	//set mode to output
 	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO13);
 	gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO12);
@@ -75,16 +82,21 @@ int main(void) {
 		if(audioSampleEventInterruptFlag)
 		{
 			audioSampleEventInterruptFlag = false;
+			
 
 			if(++sample_increment >= INPUT_EACH_N_SAMPLE)
 			{
 				sample_increment = 0;
 				inputSampleEventInterruptFlag = true;
 			}
-			
-			if(!OUT_BUFFER_EMPTY)
+
+			if(curVoltSignal == 0)
 			{
-				write_voltage_to_dac(outputBuffer[bufferTail++]);
+				gpio_clear(GPIOC, GPIO13);
+			}
+			else
+			{
+				gpio_set(GPIOC, GPIO13);
 			}
 
 		}
@@ -96,15 +108,10 @@ int main(void) {
 		}
 		if(!OUT_BUFFER_FULL)
 		{
-			gpio_clear(GPIOC, GPIO13);
 			if(pressed1)
-				music_play(30);
+				music_play(300);
 			if(pressed2)
 				music_play(450);
-		}
-		else
-		{
-				gpio_set(GPIOC, GPIO13);
 		}
 		
 

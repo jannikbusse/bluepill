@@ -10,6 +10,7 @@
         "math.h": "c",
         "stdint.h": "c",
         "music.h": "c",
-        "osc.h": "c"
+        "osc.h": "c",
+        "numeric": "c"
     }
 }
