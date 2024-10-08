@@ -18,7 +18,7 @@ bin/src/osc.o: src/osc.c src/osc.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/stdint.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/sys/_intsup.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h \
- src/common.h ../libopencm3/include/libopencm3/stm32/rcc.h \
+ src/common.h src/input.h ../libopencm3/include/libopencm3/stm32/rcc.h \
  ../libopencm3/include/libopencm3/cm3/common.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/lib/gcc/arm-none-eabi/13.3.1/include/stdbool.h \
  ../libopencm3/include/libopencm3/stm32/memorymap.h \
@@ -26,10 +26,6 @@ bin/src/osc.o: src/osc.c src/osc.h \
  ../libopencm3/include/libopencm3/cm3/memorymap.h \
  ../libopencm3/include/libopencm3/stm32/f1/rcc.h \
  ../libopencm3/include/libopencm3/stm32/common/rcc_common_all.h \
- ../libopencm3/include/libopencm3/stm32/spi.h \
- ../libopencm3/include/libopencm3/stm32/f1/spi.h \
- ../libopencm3/include/libopencm3/stm32/common/spi_common_v1.h \
- ../libopencm3/include/libopencm3/stm32/common/spi_common_all.h \
  ../libopencm3/include/libopencm3/stm32/gpio.h \
  ../libopencm3/include/libopencm3/stm32/f1/gpio.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h

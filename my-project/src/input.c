@@ -1,13 +1,19 @@
 #include "input.h"
 
-bool pressed1 = false, pressed2 = false;
+const uint16_t inputMap[] = {INPUT1, INPUT2, INPUT3, INPUT4}; //make sure this matches the nr of inputs in common.h
 
-void init_input()
+void init_input(inputState *in)
 {
-    gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, INPUT1);
-    gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, INPUT2);
-    gpio_clear(GPIOA, INPUT1);
-    gpio_clear(GPIOA, INPUT2);
+    for(int i = 0; i < NR_INPUTS; i ++)
+    {
+        gpio_set_mode(GPIOA, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, inputMap[i]);
+        gpio_clear(GPIOA, inputMap[i]);
+    }
+
+    for(int i = 0; i < NR_INPUTS; i++)
+    {
+        in->keys[i].pressed = false;
+    }
 
 }
 
@@ -16,9 +22,13 @@ bool inputPressed(uint32_t btn)
     return gpio_get(GPIOA, btn);
 }
 
-void input_update()
+void input_update(inputState *in)
 {
-    pressed1 = (inputPressed(INPUT1));
-    pressed2 = (inputPressed(INPUT2));
+
+    for(int i = 0; i < NR_INPUTS; i ++)
+    {
+        in->keys[i].pressed = inputPressed(inputMap[i]);
+    }
+
 
 }

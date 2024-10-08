@@ -8,20 +8,17 @@
 
 
 
+extern uint32_t current_Waveform[];
 
 
 
-extern const float c_major_scale[];
-extern volatile uint16_t notes_to_play[];
-extern volatile uint16_t idx;
-extern volatile uint16_t length;
-extern volatile float curFreq ;
-
-
-
-void music_advance_note(void);
 void init_music(uint32_t us_per_tick);
-void music_play(uint32_t frequency);
+uint16_t music_play(uint8_t nosc, inputState *in);
+
+static inline void music_write_to_buffer(uint16_t voltage)
+{
+    outputBuffer[bufferHead++] = (voltage & ~(0b1111 << 12) ) | (0b0011 << 12);
+}
 
 
 #endif

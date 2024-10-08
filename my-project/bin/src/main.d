@@ -43,4 +43,4 @@ bin/src/main.o: src/main.c ../libopencm3/include/libopencm3/stm32/rcc.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/machine/_types.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/sys/lock.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/_ansi.h \
- src/osc.h src/music.h src/input.h
+ src/osc.h src/input.h src/music.h

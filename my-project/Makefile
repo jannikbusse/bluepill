@@ -1,7 +1,7 @@
 PROJECT = synthfirm
 BUILD_DIR = bin
 
-CFILES = src/main.c src/dac.c src/timer.c src/osc.c src/music.c src/input.c
+CFILES = src/main.c src/dac.c src/timer.c src/osc.c src/music.c src/input.c src/common.c
 
 # TODO - you will need to edit these two lines!
 DEVICE=stm32f103c8

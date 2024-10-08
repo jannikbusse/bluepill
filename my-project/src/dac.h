@@ -54,7 +54,7 @@ static inline __attribute__((always_inline)) void write_voltage_to_dac(uint16_t 
 static inline __attribute__((always_inline)) uint16_t dac_rel_to_abs_voltage(uint32_t voltage)
 {
     //pre configure the config bits
-    return (((4095 * voltage)/FIXPOINT_DECIMAL_PLACES) & ~(0b1111 << 12) ) | (0b0011 << 12) ;
+    return ((4095 * voltage)/FIXPOINT_DECIMAL_PLACES) ;
     
 }
 
