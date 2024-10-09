@@ -8,11 +8,11 @@
 
 
 
-extern uint32_t current_Waveform[];
+extern float current_Waveform[];
 
 
 
-void init_music(uint32_t us_per_tick);
+void init_music(float us_per_tick);
 uint16_t music_play(uint8_t nosc, inputState *in);
 
 static inline void music_write_to_buffer(uint16_t voltage)

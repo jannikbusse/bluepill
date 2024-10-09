@@ -1,16 +1,15 @@
 #include "osc.h"
 
+float osc_us_per_tick 	= 0;
+float osc_s_per_tick 	= 1.f/44100.f;
 
-uint32_t osc_us_per_tick 	= 0;
-uint32_t osc_s_per_tick 	= 227;
-
-void init_oscs(uint32_t s_per_tick_fix)
+void init_oscs(float s_per_tick)
 {
-    osc_us_per_tick = s_per_tick_fix * 1000000;
-    osc_s_per_tick 	= s_per_tick_fix;
+    osc_us_per_tick = s_per_tick * 1000000;
+    osc_s_per_tick 	= s_per_tick;
 }
 
-uint32_t osc_sine_wave(uint32_t freq, uint32_t *phase)
+float osc_sine_wave(float freq, float *phase)
 {
 	//TODO FIXPOINT LOGIC
 	float phaseadd = freq * 2  * ( osc_s_per_tick );
@@ -21,23 +20,24 @@ uint32_t osc_sine_wave(uint32_t freq, uint32_t *phase)
 	return res ;
 }
 
-//Frequency in HERTZ 440 * 100 HZ = 440 * FIXPOINT_DECIMAL_PLACES
-uint32_t osc_square_wave(uint32_t freq, uint32_t *phase)
+
+float osc_square_wave(float freq, float *phase)
 {
-	uint32_t phaseadd = (freq  * osc_s_per_tick)/100 ;
+	float phaseadd = (freq  * osc_s_per_tick) ;
 	*phase += phaseadd ;
-	if (*phase >= FIXPOINT_DECIMAL_PLACES) {
-		*phase -= FIXPOINT_DECIMAL_PLACES;
+	if (*phase >= 1.f) {
+		*phase -= 1.f;
 	}
-	uint32_t res = (*phase < FIXPOINT_DECIMAL_PLACES>>1) ? 0 : FIXPOINT_DECIMAL_PLACES;
+	float res = (*phase < 0.5f) ? 0 : 1;
 
 
-	return res ;
+	return (*phase < 0.5f) ? 0 : 1;
 }
 
-static uint32_t osc_play_polyphonies(osc *o, inputState *input)
+static float osc_play_polyphonies(osc *o, inputState *input)
 {
-	uint64_t res = 0;
+
+	float res = 0;
 	uint8_t activePolyphonies = 0;
 	for(uint8_t i = 0; i < NR_INPUTS; i++)
 	{
@@ -45,28 +45,56 @@ static uint32_t osc_play_polyphonies(osc *o, inputState *input)
 		{
 			for(uint8_t v = 0; v <o->nactiveVoices; v ++)
 			{
-				// uint64_t fr = (uint64_t)((key_assignments[i]*o->polyphonies[i].oscVoices[v].freqOffset) / FIXPOINT_DECIMAL_PLACES);
-				uint64_t fr = (key_assignments[i]);
-				uint64_t powerad = ((uint64_t)(o->waveform(fr, &(o->polyphonies[i].oscVoices[v].phase))))/(uint64_t)(o->nactiveVoices);
-				// powerad = (powerad * o->polyphonies[i].oscVoices[v].volume )/ FIXPOINT_DECIMAL_PLACES;
+				float fr = (key_assignments[i]);
+				float powerad = ((o->waveform(fr, &(o->polyphonies[i].oscVoices[v].phase))))/(o->nactiveVoices);
 				res += powerad;
 			}
 			
 		}
 	}
-	return ((res*o->volume)/FIXPOINT_DECIMAL_PLACES);
+	return res*o->volume;
 }
 
-uint32_t osc_play_osc(osc *o, inputState *input )
+static float osc_play_glide(osc *o, inputState *input)
 {
 
-	switch (o->currentOscState)
+	if(input->activeKey == KEY_UNPRESSED)
 	{
-	case OSC_STATE_GLIDE:
-		/*Not implemented*/
+		return 0;
+	}
+	
+	float res = 0;
+	float glideAdd = (key_assignments[input->activeKey] - o->currentFrequency);
+	float absdiff = MABS(glideAdd);
+
+	if(absdiff > 0.0001)
+	{
+		glideAdd = glideAdd / absdiff;
+		glideAdd *= MMIN(absdiff, o->glideSpeed);
+		o->currentFrequency += glideAdd;
+	}
+	
+	for(uint8_t v = 0; v <o->nactiveVoices; v ++)
+	{
+		float fr =o->currentFrequency;
+		float powerad = ((o->waveform(fr, &(o->polyphonies[0].oscVoices[v].phase))))/(o->nactiveVoices);
+		res += powerad;
+	}
+	return res * o->volume;
+
+}
+
+float osc_play_osc(osc *o, inputState *input )
+{
+	//state logic
+
+	switch (o->curOscPlaySetting)
+	{
+	case OSC_PLAY_SETTING_GLIDE:
+		return osc_play_glide(o, input);
 		break;
 
-	case OSC_STATE_POLYPHONY:
+	case OSC_PLAY_SETTING_POLYPHONY:
 		return osc_play_polyphonies(o, input);
 		break;
 	
@@ -80,16 +108,18 @@ uint32_t osc_play_osc(osc *o, inputState *input )
 void init_osc(osc *o)
 {
 	o->waveform = osc_square_wave;
-    o->currentOscState = OSC_STATE_POLYPHONY;
+    o->curOscPlaySetting = OSC_PLAY_SETTING_GLIDE;
+	o->curOscState = OSC_STATE_NOT_PLAYING;
 	o->nactiveVoices = NR_VOICES;
-	o->volume = 200000;
+	o->volume = .1f;
+	o->glideSpeed =0.01f;
+	o->currentFrequency = 0;
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{
 		for(uint16_t v = 0; v < NR_VOICES; v++)
 		{
-			o->polyphonies[i].oscVoices[v].phase = (((v * 1242) % 117)*1554253 )%FIXPOINT_DECIMAL_PLACES;
 			o->polyphonies[i].oscVoices[v].phase = 0;
-			o->polyphonies[i].oscVoices[v].freqOffset = FIXPOINT_DECIMAL_PLACES - (50000 * (((NR_VOICES/2) )-v));
+			o->polyphonies[i].oscVoices[v].freqOffset = 1 + 0.2f * (((NR_VOICES/2) -v));
 			// o->polyphonies[i].oscVoices[v].volume = FIXPOINT_DECIMAL_PLACES - (200000 * (c_abs64((NR_VOICES/2) -v)));
 		}
 	}

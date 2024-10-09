@@ -28,4 +28,5 @@ bin/src/osc.o: src/osc.c src/osc.h \
  ../libopencm3/include/libopencm3/stm32/common/rcc_common_all.h \
  ../libopencm3/include/libopencm3/stm32/gpio.h \
  ../libopencm3/include/libopencm3/stm32/f1/gpio.h \
- ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h
+ ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
+ src/processing/foirrhp.h src/processing/../common.h

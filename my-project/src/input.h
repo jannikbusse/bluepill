@@ -6,10 +6,10 @@
 #include "common.h"
 
 
-
 struct KEY_STATE
 {
     bool pressed;
+    uint64_t pressedLastAtSample;
 };
 typedef struct KEY_STATE keyState;
 
@@ -17,6 +17,7 @@ typedef struct KEY_STATE keyState;
 struct INPUT_STATE
 {
     keyState keys[NR_INPUTS];
+    uint8_t activeKey;
 };
 typedef struct INPUT_STATE inputState;
 

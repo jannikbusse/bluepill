@@ -50,11 +50,10 @@ static inline __attribute__((always_inline)) void write_voltage_to_dac(uint16_t 
     gpio_set(GPIOA, SPI1_SLAVE_SELECT_DAC);
 }
 
-// range 0 - FIXPOINT_DECIMAL_PLACES
-static inline __attribute__((always_inline)) uint16_t dac_rel_to_abs_voltage(uint32_t voltage)
+static inline __attribute__((always_inline)) uint16_t dac_rel_to_abs_voltage(float voltage)
 {
     //pre configure the config bits
-    return ((4095 * voltage)/FIXPOINT_DECIMAL_PLACES) ;
+    return (uint16_t)(4095.0f * voltage);
     
 }
 

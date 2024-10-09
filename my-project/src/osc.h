@@ -7,18 +7,25 @@
 #include <stdint.h>
 #include "common.h"
 #include "input.h"
+#include "processing/foirrhp.h"
+
+enum OSC_PLAY_SETTING {
+    OSC_PLAY_SETTING_GLIDE,
+    OSC_PLAY_SETTING_POLYPHONY
+};
+typedef enum OSC_PLAY_SETTING osc_play_setting;
 
 enum OSC_STATE {
-    OSC_STATE_GLIDE,
-    OSC_STATE_POLYPHONY
+    OSC_STATE_PLAYING,
+    OSC_STATE_NOT_PLAYING
 };
 typedef enum OSC_STATE osc_state;
 
 struct VOICE
 {
-    uint32_t phase;
-    uint64_t freqOffset;
-    uint64_t volume;
+    float phase;
+    float freqOffset;
+    float volume;
 };
 typedef struct VOICE voice;
 
@@ -31,19 +38,23 @@ typedef struct POLYPHONY polyphony;
 struct OSC
 {
     polyphony polyphonies[NR_INPUTS]; //one polyphony output for each input
-    osc_state currentOscState;
-    uint32_t (*waveform)(uint32_t freq, uint32_t *phase);
-    uint8_t nactiveVoices;
-    //0 - FIXPOINT_DECIMAL_PLACES
-    uint64_t volume;
+    osc_play_setting curOscPlaySetting;
+    osc_state curOscState;
+    float (*waveform)(float freq, float *phase);
+
+    float currentFrequency;    
+    float glideSpeed;
+
+    uint16_t nactiveVoices;
+    float volume;
 
 };
 typedef struct OSC osc ;
 
-void init_oscs(uint32_t s_per_tick_fix);
+void init_oscs(float s_per_tick_fix);
 void init_osc(osc *o);
-uint32_t osc_square_wave(uint32_t freq, uint32_t *phase);
-uint32_t osc_sine_wave(uint32_t freq, uint32_t *phase);
-uint32_t osc_play_osc(osc *o, inputState *input);
+float osc_square_wave(float freq, float *phase);
+float osc_sine_wave(float freq, float *phase);
+float osc_play_osc(osc *o, inputState *input);
 
 #endif

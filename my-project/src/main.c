@@ -17,14 +17,12 @@ volatile bool inputSampleEventInterruptFlag = false;
 
 inputState inpState;
 
-
 #define CLOCK_SPEED_HZ 			72000000f
-#define SAMPLE_FREQ_HZ			44100
-#define s_PER_TICK_FIX			227
-#define uS_PER_TICK 			22.7
 #define INPUT_EACH_N_SAMPLE		400 //roughly 100 times per second
 
 uint16_t sample_increment = 0;
+uint64_t tick_counter = 0;
+
 volatile uint16_t curVoltSignal = 0; //already filtered
 volatile uint32_t dummy_variable_not_used = 0;
 
@@ -47,7 +45,8 @@ void tim2_isr(void) {
     if (timer_get_flag(TIM2, TIM_SR_UIF)) {
         // Clear the interrupt flag
         timer_clear_flag(TIM2, TIM_SR_UIF);
-
+		tick_counter ++;
+		
 		if(!OUT_BUFFER_EMPTY)
 		{
 			write_voltage_to_dac(outputBuffer[bufferTail]);
@@ -77,7 +76,7 @@ int main(void) {
 	rcc_periph_clock_enable(RCC_GPIOA);
 	init_input(&inpState);
 	init_dac();
-	init_music(s_PER_TICK_FIX);
+	init_music(s_PER_TICK);
 	//set mode to output
 	gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO13);
 	gpio_set_mode(GPIOB, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, GPIO12);
@@ -103,13 +102,14 @@ int main(void) {
 				inputSampleEventInterruptFlag = true;
 			}
 
-			if(OUT_BUFFER_EMPTY == 0)
+			if(OUT_BUFFER_FULL)
 			{
-				gpio_clear(GPIOC, GPIO13);
+				gpio_set(GPIOC, GPIO13);
+				
 			}
 			else
 			{
-				gpio_set(GPIOC, GPIO13);
+				gpio_clear(GPIOC, GPIO13);
 			}
 		}
 
@@ -123,6 +123,5 @@ int main(void) {
 			uint16_t buff = music_play(0, &inpState);
 			music_write_to_buffer((uint16_t) buff);
 		}
-
 	}
 }	

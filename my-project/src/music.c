@@ -1,11 +1,11 @@
 #include "music.h"
 
-uint32_t current_Waveform[1024];
+float current_Waveform[1024];
 
 osc oscilator[2];
 
 
-void init_music(uint32_t s_per_tick_fix)
+void init_music(float s_per_tick_fix)
 {
     init_oscs(s_per_tick_fix);
     init_osc(&(oscilator[0]));
