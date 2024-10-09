@@ -77,6 +77,7 @@ static float osc_play_glide(osc *o, inputState *input)
 	for(uint8_t v = 0; v <o->nactiveVoices; v ++)
 	{
 		float fr =o->currentFrequency;
+		//fr = (key_assignments[input->activeKey]);
 		float powerad = ((o->waveform(fr, &(o->polyphonies[0].oscVoices[v].phase))))/(o->nactiveVoices);
 		res += powerad;
 	}
@@ -111,8 +112,8 @@ void init_osc(osc *o)
     o->curOscPlaySetting = OSC_PLAY_SETTING_GLIDE;
 	o->curOscState = OSC_STATE_NOT_PLAYING;
 	o->nactiveVoices = NR_VOICES;
-	o->volume = .1f;
-	o->glideSpeed =0.01f;
+	o->volume = .05f;
+	o->glideSpeed =0.005f;
 	o->currentFrequency = 0;
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{

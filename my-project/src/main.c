@@ -17,8 +17,6 @@ volatile bool inputSampleEventInterruptFlag = false;
 
 inputState inpState;
 
-#define CLOCK_SPEED_HZ 			72000000f
-#define INPUT_EACH_N_SAMPLE		400 //roughly 100 times per second
 
 uint16_t sample_increment = 0;
 uint64_t tick_counter = 0;
@@ -102,7 +100,7 @@ int main(void) {
 				inputSampleEventInterruptFlag = true;
 			}
 
-			if(OUT_BUFFER_FULL)
+			if(inpState.activeKey != KEY_UNPRESSED)
 			{
 				gpio_set(GPIOC, GPIO13);
 				

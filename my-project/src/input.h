@@ -18,6 +18,8 @@ struct INPUT_STATE
 {
     keyState keys[NR_INPUTS];
     uint8_t activeKey;
+    uint64_t activeKeyPressed;
+
 };
 typedef struct INPUT_STATE inputState;
 

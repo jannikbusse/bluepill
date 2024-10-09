@@ -5,7 +5,8 @@
 #include "osc.h"
 #include "dac.h"
 #include "common.h"
-
+#include "processing/foirrhp.h"
+#include "processing/folp.h"
 
 
 extern float current_Waveform[];

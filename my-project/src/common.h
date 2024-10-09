@@ -3,7 +3,8 @@
 #include <stdint.h>
 
 
-#define M_PII 3.14159265358979323846
+#define M_PII 3.14159f
+#define M_2PII 6.28318f
 
 #define MMIN(a, b) ((a) < (b) ? (a) : (b))
 #define MMAX(a, b) ((a) > (b) ? (a) : (b))
@@ -18,11 +19,13 @@
 #define NR_INPUTS        4
 #define KEY_UNPRESSED    255
 
+#define CLOCK_SPEED_HZ 			72000000f
+#define SAMPLE_FREQ_HZ			20000.f
+#define INPUT_FREQ_HZ           100
 
-#define SAMPLE_FREQ_HZ			44100.f
-#define s_PER_TICK			(1.f/44100.f)
-#define uS_PER_TICK 			22.7f
-
+extern const float s_PER_TICK;
+extern const float uS_PER_TICK;
+extern const float INPUT_EACH_N_SAMPLE;
 
 extern const float sin_table[];
 extern float key_assignments[];
