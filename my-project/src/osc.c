@@ -84,14 +84,6 @@ static float osc_play_glide(osc *o, inputState *input)
 	{
 		o->currentFrequency += MMIN(-glideadd, o->glideSpeed);
 	}
-
-	union {uint32_t u;float f;} u_float;
-	u_float.f  = (key_assignments[input->activeKey] - o->currentFrequency);
-	float absdiff = MABS(u_float.f);
-	u_float.u = ((u_float.u & (0x80000000))) | 0b00111111100000000000000000000000; //(this gets the sign of ufloat )
-	u_float.f *= MMSIN(absdiff, o->glideSpeed);
-	o->currentFrequency += u_float.f;
-
 	
 
 	for(uint8_t v = 0; v <o->nactiveVoices; v ++)
