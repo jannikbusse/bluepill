@@ -7,6 +7,7 @@ void init_oscs(float s_per_tick)
 {
     osc_us_per_tick = s_per_tick * 1000000;
     osc_s_per_tick 	= s_per_tick;
+
 }
 
 float osc_sine_wave(float freq, float *phase)
@@ -28,10 +29,19 @@ float osc_square_wave(float freq, float *phase)
 	if (*phase >= 1.f) {
 		*phase -= 1.f;
 	}
-	float res = (*phase < 0.5f) ? 0 : 1;
-
 
 	return (*phase < 0.5f) ? 0 : 1;
+}
+
+float osc_saw_wave(float freq, float *phase)
+{
+	float phaseadd = (freq  * osc_s_per_tick) ;
+	*phase += phaseadd ;
+	if (*phase >= 1.f) {
+		*phase -= 1.f;
+	}
+
+	return *phase - (int)*phase;
 }
 
 static float osc_play_polyphonies(osc *o, inputState *input)
@@ -49,7 +59,6 @@ static float osc_play_polyphonies(osc *o, inputState *input)
 				float powerad = ((o->waveform(fr, &(o->polyphonies[i].oscVoices[v].phase))))/(o->nactiveVoices);
 				res += powerad;
 			}
-			
 		}
 	}
 	return res*o->volume;
@@ -64,31 +73,40 @@ static float osc_play_glide(osc *o, inputState *input)
 	}
 	
 	float res = 0;
-	float glideAdd = (key_assignments[input->activeKey] - o->currentFrequency);
-	float absdiff = MABS(glideAdd);
-
-	if(absdiff > 0.0001)
-	{
-		glideAdd = glideAdd / absdiff;
-		glideAdd *= MMIN(absdiff, o->glideSpeed);
-		o->currentFrequency += glideAdd;
-	}
 	
+	
+	float glideadd = (key_assignments[input->activeKey] - o->currentFrequency);
+	if(glideadd > 0)
+	{
+		o->currentFrequency += MMIN(glideadd, o->glideSpeed);
+	}
+	else
+	{
+		o->currentFrequency += MMIN(-glideadd, o->glideSpeed);
+	}
+
+	union {uint32_t u;float f;} u_float;
+	u_float.f  = (key_assignments[input->activeKey] - o->currentFrequency);
+	float absdiff = MABS(u_float.f);
+	u_float.u = ((u_float.u & (0x80000000))) | 0b00111111100000000000000000000000; //(this gets the sign of ufloat )
+	u_float.f *= MMSIN(absdiff, o->glideSpeed);
+	o->currentFrequency += u_float.f;
+
+	
+
 	for(uint8_t v = 0; v <o->nactiveVoices; v ++)
 	{
 		float fr =o->currentFrequency;
 		//fr = (key_assignments[input->activeKey]);
-		float powerad = ((o->waveform(fr, &(o->polyphonies[0].oscVoices[v].phase))))/(o->nactiveVoices);
+		float powerad = ((o->waveform(fr, &(o->polyphonies[0].oscVoices[v].phase))));
 		res += powerad;
 	}
-	return res * o->volume;
-
+	return res * o->volume * o->oneByNActiveVoices;
 }
 
 float osc_play_osc(osc *o, inputState *input )
 {
 	//state logic
-
 	switch (o->curOscPlaySetting)
 	{
 	case OSC_PLAY_SETTING_GLIDE:
@@ -108,11 +126,12 @@ float osc_play_osc(osc *o, inputState *input )
 
 void init_osc(osc *o)
 {
-	o->waveform = osc_square_wave;
+	o->waveform = osc_saw_wave;
     o->curOscPlaySetting = OSC_PLAY_SETTING_GLIDE;
 	o->curOscState = OSC_STATE_NOT_PLAYING;
 	o->nactiveVoices = NR_VOICES;
-	o->volume = .05f;
+	o->oneByNActiveVoices = 1.f / o->nactiveVoices;
+	o->volume = .01f;
 	o->glideSpeed =0.005f;
 	o->currentFrequency = 0;
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
@@ -125,5 +144,4 @@ void init_osc(osc *o)
 		}
 	}
 
-   
 }

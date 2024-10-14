@@ -21,15 +21,15 @@ uint16_t music_play(uint8_t nosc, inputState *in)
     // if(in->activeKey != KEY_UNPRESSED)
     // {
     //     float cuttoffFreq = 30;
-    //     #define DURATION 4500
-    //     if(tick_counter < in->keys[in->activeKey].pressedLastAtSample +DURATION )
+    //     #define DURATION 10500
+    //     if(tick_counter < in->keys[in->activeKey].pressedLastAtSample + DURATION )
     //     {
     //         cuttoffFreq = MMAX ((DURATION  +  in->keys[in->activeKey].pressedLastAtSample - tick_counter), cuttoffFreq);
     //     }
     //     lp_set_cuttoff_freq(cuttoffFreq);
 
     // }
-    // float lp_sample = lp_filter_sample_fo(raw_sample);
+    float lp_sample = lp_filter_sample_fo(raw_sample);
     return dac_rel_to_abs_voltage(raw_sample);
 }
 

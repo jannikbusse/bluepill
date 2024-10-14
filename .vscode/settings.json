@@ -11,6 +11,7 @@
         "stdint.h": "c",
         "music.h": "c",
         "osc.h": "c",
-        "numeric": "c"
+        "numeric": "c",
+        "random": "c"
     }
 }

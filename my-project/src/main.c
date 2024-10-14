@@ -44,7 +44,7 @@ void tim2_isr(void) {
         // Clear the interrupt flag
         timer_clear_flag(TIM2, TIM_SR_UIF);
 		tick_counter ++;
-		
+		gpio_toggle(GPIOB, GPIO12);
 		if(!OUT_BUFFER_EMPTY)
 		{
 			write_voltage_to_dac(outputBuffer[bufferTail]);
@@ -100,15 +100,8 @@ int main(void) {
 				inputSampleEventInterruptFlag = true;
 			}
 
-			if(inpState.activeKey != KEY_UNPRESSED)
-			{
-				gpio_set(GPIOC, GPIO13);
 				
-			}
-			else
-			{
-				gpio_clear(GPIOC, GPIO13);
-			}
+				
 		}
 
 		if(inputSampleEventInterruptFlag)
@@ -118,8 +111,11 @@ int main(void) {
 		}
 		if(!OUT_BUFFER_FULL)
 		{
+			gpio_set(GPIOC, GPIO13);
 			uint16_t buff = music_play(0, &inpState);
 			music_write_to_buffer((uint16_t) buff);
+			gpio_clear(GPIOC, GPIO13);
+
 		}
 	}
 }	

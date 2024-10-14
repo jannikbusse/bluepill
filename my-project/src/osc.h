@@ -1,13 +1,15 @@
 #ifndef OSC_H
 #define OSC_H
 
-#define NR_VOICES (1)
+#define NR_VOICES (3)
 #define MAX_POLYPHONIES NR_INPUTS
 #include <math.h>
 #include <stdint.h>
 #include "common.h"
 #include "input.h"
 #include "processing/foirrhp.h"
+#include "wavetable.h"
+
 
 enum OSC_PLAY_SETTING {
     OSC_PLAY_SETTING_GLIDE,
@@ -46,6 +48,7 @@ struct OSC
     float glideSpeed;
 
     uint16_t nactiveVoices;
+    float oneByNActiveVoices;
     float volume;
 
 };
@@ -54,6 +57,7 @@ typedef struct OSC osc ;
 void init_oscs(float s_per_tick_fix);
 void init_osc(osc *o);
 float osc_square_wave(float freq, float *phase);
+float osc_saw_wave(float freq, float *phase);
 float osc_sine_wave(float freq, float *phase);
 float osc_play_osc(osc *o, inputState *input);
 
