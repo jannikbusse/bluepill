@@ -12,6 +12,9 @@
         "music.h": "c",
         "osc.h": "c",
         "numeric": "c",
-        "random": "c"
+        "random": "c",
+        "common.h": "c",
+        "timer": "c",
+        "foirrhp.h": "c"
     }
 }

@@ -31,5 +31,11 @@ extern const float sin_table[];
 extern float key_assignments[];
 extern uint64_t tick_counter;
 
+enum KEY_EVENT {
+    KEY_EVENT_PRESSED,
+    KEY_EVENT_RELEASED,
+    KEY_EVENT_NOTHING
+};
+typedef enum KEY_EVENT key_event;
 
 #endif

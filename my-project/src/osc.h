@@ -1,7 +1,7 @@
 #ifndef OSC_H
 #define OSC_H
 
-#define NR_VOICES (3)
+#define NR_VOICES (1)
 #define MAX_POLYPHONIES NR_INPUTS
 #include <math.h>
 #include <stdint.h>
@@ -9,6 +9,7 @@
 #include "input.h"
 #include "processing/foirrhp.h"
 #include "wavetable.h"
+#include "processing/envelope.h"
 
 
 enum OSC_PLAY_SETTING {
@@ -34,6 +35,7 @@ typedef struct VOICE voice;
 struct POLYPHONY
 {
     voice oscVoices[NR_VOICES];
+    envelope env;
 };
 typedef struct POLYPHONY polyphony;
 
@@ -54,7 +56,7 @@ struct OSC
 };
 typedef struct OSC osc ;
 
-void init_oscs(float s_per_tick_fix);
+void init_oscs(float s_per_tick);
 void init_osc(osc *o);
 float osc_square_wave(float freq, float *phase);
 float osc_saw_wave(float freq, float *phase);

@@ -31,7 +31,8 @@ bin/src/music.o: src/music.c src/music.h \
  ../libopencm3/include/libopencm3/stm32/f1/gpio.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
  src/processing/foirrhp.h src/processing/../common.h src/wavetable.h \
- src/dac.h ../libopencm3/include/libopencm3/stm32/flash.h \
+ src/processing/envelope.h src/dac.h \
+ ../libopencm3/include/libopencm3/stm32/flash.h \
  ../libopencm3/include/libopencm3/stm32/f1/flash.h \
  ../libopencm3/include/libopencm3/stm32/common/flash_common_all.h \
  ../libopencm3/include/libopencm3/stm32/common/flash_common_f.h \

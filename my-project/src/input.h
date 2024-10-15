@@ -9,6 +9,7 @@
 struct KEY_STATE
 {
     bool pressed;
+    key_event event;
     uint64_t pressedLastAtSample;
 };
 typedef struct KEY_STATE keyState;
@@ -19,6 +20,9 @@ struct INPUT_STATE
     keyState keys[NR_INPUTS];
     uint8_t activeKey;
     uint64_t activeKeyPressed;
+    key_event activeKeyEvent;
+
+    
 
 };
 typedef struct INPUT_STATE inputState;

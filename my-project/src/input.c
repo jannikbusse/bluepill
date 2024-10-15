@@ -14,6 +14,8 @@ void init_input(inputState *in)
     for(int i = 0; i < NR_INPUTS; i++)
     {
         in->keys[i].pressed = false;
+        in->keys[i].event = KEY_EVENT_NOTHING;
+
         in->keys[i].pressedLastAtSample = 0;
     }
 
@@ -47,23 +49,38 @@ void input_update(inputState *in)
 
     for(int i = 0; i < NR_INPUTS; i ++)
     {
+        in->keys[i].event = KEY_EVENT_NOTHING;
+        in->activeKeyEvent = KEY_EVENT_NOTHING;
         if(inputPressed(inputMap[i]))
         {   
+            if(in->activeKey == KEY_UNPRESSED)
+            {
+                in->activeKeyEvent = KEY_EVENT_PRESSED;
+            }
             if(!in->keys[i].pressed)
             {
                 //newly pressed key
                 in->keys[i].pressed = true;
+                in->keys[i].event = KEY_EVENT_PRESSED;
                 in->keys[i].pressedLastAtSample = tick_counter;
                 in->activeKey = i;
             }
             
         }  
         else{
-            in->keys[i].pressed = false;
+            if(in->keys[i].pressed)
+            {
+                //key just released
+                in->keys[i].event = KEY_EVENT_RELEASED;
+                in->keys[i].pressed = false;
+            }
             if(in->activeKey == i)
             {   
-
                 in->activeKey = find_last_unpressed_key(in);
+                if(in->activeKey == KEY_UNPRESSED)
+                {
+                    in->activeKeyEvent = KEY_EVENT_RELEASED;
+                }
             }
         }
         

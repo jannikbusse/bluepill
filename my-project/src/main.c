@@ -12,6 +12,7 @@
 #include "music.h"
 #include "input.h"
 
+
 volatile bool audioSampleEventInterruptFlag = false; //true if a interrupt occurs
 volatile bool inputSampleEventInterruptFlag = false; 
 

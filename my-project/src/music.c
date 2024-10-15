@@ -5,9 +5,9 @@ float current_Waveform[1024];
 osc oscilator[2];
 
 
-void init_music(float s_per_tick_fix)
+void init_music(float s_per_tick)
 {
-    init_oscs(s_per_tick_fix);
+    init_oscs(s_per_tick);
     init_osc(&(oscilator[0]));
     init_osc(&(oscilator[1]));
     hp_set_cuttoff_freq(10);

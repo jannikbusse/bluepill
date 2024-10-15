@@ -67,13 +67,8 @@ static float osc_play_polyphonies(osc *o, inputState *input)
 static float osc_play_glide(osc *o, inputState *input)
 {
 
-	if(input->activeKey == KEY_UNPRESSED)
-	{
-		return 0;
-	}
 	
 	float res = 0;
-	
 	
 	float glideadd = (key_assignments[input->activeKey] - o->currentFrequency);
 	if(glideadd > 0)
@@ -82,18 +77,26 @@ static float osc_play_glide(osc *o, inputState *input)
 	}
 	else
 	{
-		o->currentFrequency += MMIN(-glideadd, o->glideSpeed);
+		o->currentFrequency -= MMIN(-glideadd, o->glideSpeed);
 	}
 	
-
-	for(uint8_t v = 0; v <o->nactiveVoices; v ++)
+	voice* end = o->polyphonies[0].oscVoices + sizeof(o->polyphonies[0].oscVoices)/ sizeof(o->polyphonies[0].oscVoices[0]);
+	for(voice* p = o->polyphonies[0].oscVoices; p < end; p++ )
 	{
-		float fr =o->currentFrequency;
-		//fr = (key_assignments[input->activeKey]);
-		float powerad = ((o->waveform(fr, &(o->polyphonies[0].oscVoices[v].phase))));
+		env_update_envelope(&(o->polyphonies[0].env), input->activeKeyEvent);
+
+		float fr =o->currentFrequency * p->freqOffset;
+		float powerad = ((o->waveform(fr, &(p->phase))));
 		res += powerad;
 	}
-	return res * o->volume * o->oneByNActiveVoices;
+
+	// for(uint8_t v = 0; v <o->nactiveVoices; v ++)
+	// {
+	// 	float fr =o->currentFrequency * o->polyphonies[0].oscVoices[v].freqOffset;
+	// 	float powerad = ((o->waveform(fr, &(o->polyphonies[0].oscVoices[v].phase))));
+	// 	res += powerad;
+	// }
+	return res * o->volume * o->oneByNActiveVoices * o->polyphonies[0].env.current_scalar;
 }
 
 float osc_play_osc(osc *o, inputState *input )
@@ -123,11 +126,13 @@ void init_osc(osc *o)
 	o->curOscState = OSC_STATE_NOT_PLAYING;
 	o->nactiveVoices = NR_VOICES;
 	o->oneByNActiveVoices = 1.f / o->nactiveVoices;
-	o->volume = .01f;
-	o->glideSpeed =0.005f;
+	o->volume = .04f;
+	o->glideSpeed =0.5f;
 	o->currentFrequency = 0;
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{
+		env_init_env(&(o->polyphonies[i].env));
+
 		for(uint16_t v = 0; v < NR_VOICES; v++)
 		{
 			o->polyphonies[i].oscVoices[v].phase = 0;
