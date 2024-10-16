@@ -41,4 +41,5 @@ bin/src/music.o: src/music.c src/music.h \
  ../libopencm3/include/libopencm3/stm32/f1/spi.h \
  ../libopencm3/include/libopencm3/stm32/common/spi_common_v1.h \
  ../libopencm3/include/libopencm3/stm32/common/spi_common_all.h \
- src/processing/folp.h
+ src/processing/music_processor.h src/processing/folp.h \
+ src/processing/../input.h src/processing/envelope.h

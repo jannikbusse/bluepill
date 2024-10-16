@@ -1,4 +1,5 @@
 #include "music.h"
+#include "processing/music_processor.h"
 
 float current_Waveform[1024];
 
@@ -12,24 +13,16 @@ void init_music(float s_per_tick)
     init_osc(&(oscilator[1]));
     hp_set_cuttoff_freq(10);
     lp_set_cuttoff_freq(5000);
+    init_music_processor();
 }
 
 uint16_t music_play(uint8_t nosc, inputState *in)
 {
     float raw_sample = osc_play_osc(&(oscilator[nosc]), in);
+    float lp_filtered =  mp_lp(raw_sample, in);
 
-    // if(in->activeKey != KEY_UNPRESSED)
-    // {
-    //     float cuttoffFreq = 30;
-    //     #define DURATION 10500
-    //     if(tick_counter < in->keys[in->activeKey].pressedLastAtSample + DURATION )
-    //     {
-    //         cuttoffFreq = MMAX ((DURATION  +  in->keys[in->activeKey].pressedLastAtSample - tick_counter), cuttoffFreq);
-    //     }
-    //     lp_set_cuttoff_freq(cuttoffFreq);
+	in->eventsConsumed = true;
 
-    // }
-    float lp_sample = lp_filter_sample_fo(raw_sample);
-    return dac_rel_to_abs_voltage(raw_sample);
+    return dac_rel_to_abs_voltage(lp_filtered);
 }
 

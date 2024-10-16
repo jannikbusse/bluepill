@@ -35,6 +35,7 @@ typedef struct VOICE voice;
 struct POLYPHONY
 {
     voice oscVoices[NR_VOICES];
+    voice* endPtr;
     envelope env;
 };
 typedef struct POLYPHONY polyphony;

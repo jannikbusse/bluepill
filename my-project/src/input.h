@@ -22,6 +22,8 @@ struct INPUT_STATE
     uint64_t activeKeyPressed;
     key_event activeKeyEvent;
 
+    bool eventsConsumed;
+
     
 
 };

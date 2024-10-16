@@ -66,11 +66,15 @@ static float osc_play_polyphonies(osc *o, inputState *input)
 
 static float osc_play_glide(osc *o, inputState *input)
 {
+	static float activeFrequency = 0;
+	if(input->activeKey != KEY_UNPRESSED)
+	{
+		activeFrequency = key_assignments[input->activeKey];
+	}
 
-	
 	float res = 0;
-	
-	float glideadd = (key_assignments[input->activeKey] - o->currentFrequency);
+
+	float glideadd = activeFrequency - o->currentFrequency;
 	if(glideadd > 0)
 	{
 		o->currentFrequency += MMIN(glideadd, o->glideSpeed);
@@ -80,8 +84,9 @@ static float osc_play_glide(osc *o, inputState *input)
 		o->currentFrequency -= MMIN(-glideadd, o->glideSpeed);
 	}
 	
-	voice* end = o->polyphonies[0].oscVoices + sizeof(o->polyphonies[0].oscVoices)/ sizeof(o->polyphonies[0].oscVoices[0]);
-	for(voice* p = o->polyphonies[0].oscVoices; p < end; p++ )
+	
+
+	for(voice* p = o->polyphonies[0].oscVoices; p < o->polyphonies[0].endPtr; p++ )
 	{
 		env_update_envelope(&(o->polyphonies[0].env), input->activeKeyEvent);
 
@@ -90,13 +95,8 @@ static float osc_play_glide(osc *o, inputState *input)
 		res += powerad;
 	}
 
-	// for(uint8_t v = 0; v <o->nactiveVoices; v ++)
-	// {
-	// 	float fr =o->currentFrequency * o->polyphonies[0].oscVoices[v].freqOffset;
-	// 	float powerad = ((o->waveform(fr, &(o->polyphonies[0].oscVoices[v].phase))));
-	// 	res += powerad;
-	// }
 	return res * o->volume * o->oneByNActiveVoices * o->polyphonies[0].env.current_scalar;
+	// return res * o->volume * o->oneByNActiveVoices;
 }
 
 float osc_play_osc(osc *o, inputState *input )
@@ -127,11 +127,12 @@ void init_osc(osc *o)
 	o->nactiveVoices = NR_VOICES;
 	o->oneByNActiveVoices = 1.f / o->nactiveVoices;
 	o->volume = .04f;
-	o->glideSpeed =0.5f;
+	o->glideSpeed =0.05f;
 	o->currentFrequency = 0;
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{
 		env_init_env(&(o->polyphonies[i].env));
+		o->polyphonies[i].endPtr = o->polyphonies[i].oscVoices + sizeof(o->polyphonies[i].oscVoices)/ sizeof(o->polyphonies[i].oscVoices[i]);
 
 		for(uint16_t v = 0; v < NR_VOICES; v++)
 		{

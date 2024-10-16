@@ -112,10 +112,8 @@ int main(void) {
 		}
 		if(!OUT_BUFFER_FULL)
 		{
-			gpio_set(GPIOC, GPIO13);
 			uint16_t buff = music_play(0, &inpState);
 			music_write_to_buffer((uint16_t) buff);
-			gpio_clear(GPIOC, GPIO13);
 
 		}
 	}
