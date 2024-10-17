@@ -1,7 +1,7 @@
 #ifndef OSC_H
 #define OSC_H
 
-#define NR_VOICES (1)
+#define NR_VOICES (15)
 #define MAX_POLYPHONIES NR_INPUTS
 #include <math.h>
 #include <stdint.h>

@@ -23,6 +23,8 @@ void write_to_data_register(uint16_t word)
 
 void init_dac()
 {
+
+  //(DMA_SxNDTR)
   rcc_periph_clock_enable(RCC_SPI1);
 
   gpio_set_mode(GPIOA, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, SPI1_SLAVE_SELECT_DAC | SPI1_LDAC);

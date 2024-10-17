@@ -3,9 +3,7 @@
 #include <libopencm3/stm32/spi.h>
 #include <libopencm3/stm32/gpio.h>
 
-
 const uint16_t inputMap[] = {INPUT1, INPUT2, INPUT3, INPUT4}; //make sure this matches the nr of inputs in common.h
-
 
 void init_input(inputState *in)
 {
@@ -19,10 +17,8 @@ void init_input(inputState *in)
     {
         in->keys[i].pressed = false;
         in->keys[i].event = KEY_EVENT_NOTHING;
-
         in->keys[i].pressedLastAtSample = 0;
     }
-
     in->activeKey = KEY_UNPRESSED;
     in->eventsConsumed = false;
 
@@ -41,6 +37,7 @@ static uint8_t find_last_unpressed_key(inputState *in)
             mostRecentKeyStamp = in->keys[i].pressedLastAtSample;
         }
     }
+
     return res;
 }
 
@@ -67,7 +64,6 @@ void input_update(inputState *in)
             if(in->activeKey == KEY_UNPRESSED)
             {
                 in->activeKeyEvent = KEY_EVENT_PRESSED;
-			    gpio_toggle(GPIOC, GPIO13);
 
             }
             if(!in->keys[i].pressed)
@@ -78,7 +74,6 @@ void input_update(inputState *in)
                 in->keys[i].pressedLastAtSample = tick_counter;
                 in->activeKey = i;
             }
-            
         }  
         else{
             if(in->keys[i].pressed)
@@ -93,13 +88,8 @@ void input_update(inputState *in)
                 if(in->activeKey == KEY_UNPRESSED)
                 {
                     in->activeKeyEvent = KEY_EVENT_RELEASED;
-                    gpio_toggle(GPIOC, GPIO13);
-
                 }
             }
         }
-        
     }
-
-
 }

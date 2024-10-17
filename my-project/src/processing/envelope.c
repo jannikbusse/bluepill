@@ -10,7 +10,7 @@ void env_init_env(envelope *env)
     env_set_attack(env, 0.05f);
     env_set_decay(env, 0.2f);
     env_set_sustain(env, 0.7f);
-    env_set_release(env, 1.f);
+    env_set_release(env, 4.f);
 
     env->time_since_last_state_change = 0;
 }

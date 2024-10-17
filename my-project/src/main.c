@@ -49,7 +49,7 @@ void tim2_isr(void) {
 		if(!OUT_BUFFER_EMPTY)
 		{
 			write_voltage_to_dac(outputBuffer[bufferTail]);
-			curVoltSignal = outputBuffer[bufferTail++] & ~(0b1111<<12);
+			//curVoltSignal = outputBuffer[bufferTail++] & ~(0b1111<<12);
 		}
 
 		audioSampleEventInterruptFlag = true;
@@ -100,9 +100,6 @@ int main(void) {
 				sample_increment = 0;
 				inputSampleEventInterruptFlag = true;
 			}
-
-				
-				
 		}
 
 		if(inputSampleEventInterruptFlag)
@@ -112,8 +109,10 @@ int main(void) {
 		}
 		if(!OUT_BUFFER_FULL)
 		{
+			gpio_set(GPIOC, GPIO13);
 			uint16_t buff = music_play(0, &inpState);
 			music_write_to_buffer((uint16_t) buff);
+			gpio_clear(GPIOC, GPIO13);
 
 		}
 	}
