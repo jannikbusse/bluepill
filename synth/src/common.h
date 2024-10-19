@@ -11,7 +11,7 @@
 #define MABS(x) ((x) < 0 ? -(x) : (x))
 
 #define INPUT1      GPIO8 
-#define INPUT2      GPIO13 
+#define INPUT2      GPIO15 
 #define INPUT3      GPIO10 
 #define INPUT4      GPIO11 
 #define INPUT5      GPIO12 

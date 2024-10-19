@@ -24,6 +24,15 @@
 #define SAI1_SD_B_BLOCK_A   GPIO9 //A
 #define SAI1_FS_B_BLOCK_B   GPIO9 //B
 
+
+#define SAI1_GCR  	MMIO32(SAI1_BASE + 0x0)
+#define SAI1_BCR1  	MMIO32(SAI1_BASE + 0x024)
+#define SAI1_BCR2  	MMIO32(SAI1_BASE + 0x028)
+#define SAI_BFRCR  	MMIO32(SAI1_BASE + 0x02C) //Reset value: 0x0000 0007
+#define SAI_BSLOTR	MMIO32(SAI1_BASE + 0x030) //Reset value: 0
+#define SAI_BDR  	MMIO32(SAI1_BASE + 0x040) //data register
+#define SAI_STATUS  MMIO32(SAI1_BASE + 0x038) 
+
 extern volatile uint32_t outputBuffer[];
 extern volatile uint8_t bufferHead;
 extern volatile uint8_t bufferTail;
@@ -35,13 +44,12 @@ void init_dac(void);
 static inline __attribute__((always_inline)) uint32_t dac_rel_to_abs_voltage(float voltage)
 {
     uint32_t res = 0;
-    if(voltage > 0.001f)
+    if(voltage > 0.01f)
     {
-        res = 65535;
+        res = 6500000;
     }
     //pre configure the config bits
-    return 4294967295;
-    // return (uint32_t) (voltage * 55556.f);
+    return ((uint32_t) (voltage *  13777215 ) )<<8;
 }
 
 #endif

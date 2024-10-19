@@ -16,6 +16,7 @@
         "common.h": "c",
         "timer": "c",
         "foirrhp.h": "c",
-        "dma.h": "c"
+        "dma.h": "c",
+        "input.h": "c"
     }
 }

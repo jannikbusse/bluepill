@@ -24,7 +24,7 @@ float osc_sine_wave(float freq, float *phase)
 
 float osc_square_wave(float freq, float *phase)
 {
-	float phaseadd = (freq * 0.5f * osc_s_per_tick) ;
+	float phaseadd = (freq * osc_s_per_tick) ;
 	*phase += phaseadd ;
 	if (*phase >= 1.f) {
 		*phase -= 1.f;
@@ -35,7 +35,7 @@ float osc_square_wave(float freq, float *phase)
 
 float osc_saw_wave(float freq, float *phase)
 {
-	float phaseadd = (freq * 0.5f* osc_s_per_tick) ;
+	float phaseadd = (freq * osc_s_per_tick) ;
 	*phase += phaseadd ;
 	if (*phase >= 1.f) {
 		*phase -= 1.f;
@@ -61,8 +61,7 @@ static float osc_play_polyphonies(osc *o, inputState *input)
 			}
 		}
 	}
-	return res;
-	//return res*o->volume * o->oneByNActiveVoices;
+	return res*o->volume * o->oneByNActiveVoices;
 }
 
 static float osc_play_glide(osc *o, inputState *input)
@@ -127,9 +126,10 @@ void init_osc(osc *o)
 	o->curOscState = OSC_STATE_NOT_PLAYING;
 	o->nactiveVoices = NR_VOICES;
 	o->oneByNActiveVoices = 1.f / o->nactiveVoices;
-	o->volume = .04f;
-	o->glideSpeed =0.005f;
+	o->volume = .1f;
+	o->glideSpeed =0.115f;
 	o->currentFrequency = 0;
+
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{
 		env_init_env(&(o->polyphonies[i].env));
@@ -138,7 +138,7 @@ void init_osc(osc *o)
 		for(uint16_t v = 0; v < NR_VOICES; v++)
 		{
 			o->polyphonies[i].oscVoices[v].phase = 0;
-			o->polyphonies[i].oscVoices[v].freqOffset = 1 + 0.2f * (((NR_VOICES/2) -v));
+			o->polyphonies[i].oscVoices[v].freqOffset = 1 + 0.005f * (((NR_VOICES/2) -v));
 			// o->polyphonies[i].oscVoices[v].volume = FIXPOINT_DECIMAL_PLACES - (200000 * (c_abs64((NR_VOICES/2) -v)));
 		}
 	}

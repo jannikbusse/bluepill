@@ -13,10 +13,10 @@ static envelope lpEnvelope;
 static inline void init_lp(void)
 {
     env_init_env(&lpEnvelope);
-    env_set_attack(&lpEnvelope, 0.001f);
+    env_set_attack(&lpEnvelope, 0.0001f);
     env_set_decay(&lpEnvelope, 0.1f);
-    env_set_sustain(&lpEnvelope, 0.9f);
-    env_set_release(&lpEnvelope, 1.f);
+    env_set_sustain(&lpEnvelope, 0.7f);
+    env_set_release(&lpEnvelope, 2.f);
 }
 
 static inline void init_music_processor(void)
@@ -32,7 +32,7 @@ static inline float mp_lp(float raw_sample, inputState *in)
         return raw_sample;
     } 
     env_update_envelope(&lpEnvelope, in->activeKeyEvent);
-    lp_set_cuttoff_freq(lpEnvelope.current_scalar * 3000);
+    lp_set_cuttoff_freq(lpEnvelope.current_scalar * 5000);
     return lp_filter_sample_fo(raw_sample);
 
 }

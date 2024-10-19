@@ -7,10 +7,10 @@ void env_init_env(envelope *env)
     env->attack = attack_envelope_lin;
     env->decay = decay_envelope_lin;
     env->release = release_envelope_lin;
-    env_set_attack(env, 0.05f);
+    env_set_attack(env, 0.0005f);
     env_set_decay(env, 0.2f);
-    env_set_sustain(env, 0.7f);
-    env_set_release(env, 1.f);
+    env_set_sustain(env, 1.f);
+    env_set_release(env, 0.5f);
 
     env->time_since_last_state_change = 0;
 }
@@ -20,7 +20,7 @@ void env_set_attack(envelope *env, float duration)
     env->attack_duration = duration;
     if(duration <= 0.0001f)
     {
-        env->one_by_attack_duration = 1;
+        env->one_by_attack_duration = 0.0001;
     }
     else
     {
@@ -32,7 +32,7 @@ void env_set_decay(envelope *env, float duration)
     env->decay_duration = duration;
     if(duration <= 0.0001f)
     {
-        env->one_by_decay_duration = 1;
+        env->one_by_decay_duration = 0.0001;
     }
     else
     {
@@ -50,7 +50,7 @@ void env_set_release(envelope *env, float duration)
     env->release_duration = duration;
     if(duration <= 0.0001f)
     {
-        env->one_by_release_duration = 1;
+        env->one_by_release_duration = 0.0001;
     }
     else
     {
