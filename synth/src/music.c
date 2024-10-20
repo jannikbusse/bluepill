@@ -19,7 +19,7 @@ void init_music(float s_per_tick)
 uint32_t music_play(uint8_t nosc, inputState *in)
 {
     float raw_sample = osc_play_osc(&(oscilator[nosc]), in);
-    float lp_filtered =  mp_lp(raw_sample, in);
+    // float lp_filtered =  mp_lp(raw_sample, in);
 
 	in->eventsConsumed = true;
 

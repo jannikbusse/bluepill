@@ -6,9 +6,10 @@
 
 
 extern float wavetable[];
+extern volatile float sine_table[];
 
 
-void wt_populate_wavetable(float (*waveform)(float , float *));
+void wt_populate_wavetable(float (*waveform)(float , float *), float* table);
 
 
 #endif

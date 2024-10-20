@@ -45,7 +45,7 @@ typedef struct  ENVELOPE envelope;
 
 void env_init_env(envelope *env);
 void env_update_envelope(envelope *env, key_event event);
-
+void env_init_env_adsr(envelope *env, float a, float d, float s, float r);
 void env_set_attack(envelope *env, float duration);
 void env_set_decay(envelope *env, float duration);
 void env_set_sustain(envelope *env, float sustainLevel);

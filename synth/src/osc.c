@@ -12,12 +12,13 @@ void init_oscs(float s_per_tick)
 
 float osc_sine_wave(float freq, float *phase)
 {
-	//TODO FIXPOINT LOGIC
-	float phaseadd = freq * 2  * ( osc_s_per_tick );
+	float phaseadd = freq * osc_s_per_tick ;
 	*phase += phaseadd;
-    *phase = fmod(*phase, 2 );
+	if (*phase >= 1.f) {
+		*phase -= 1.f;
+	}
 	
-	float res = (  2*(*phase * 2)+1.0)/2.0;
+	float res =(1+ sin((*phase)*6.28318530717958647692f)) * 0.5f;
 	return res ;
 }
 
@@ -96,7 +97,6 @@ static float osc_play_glide(osc *o, inputState *input)
 	}
 
 	return res * o->volume * o->oneByNActiveVoices * o->polyphonies[0].env.current_scalar;
-	// return res * o->volume * o->oneByNActiveVoices;
 }
 
 float osc_play_osc(osc *o, inputState *input )
@@ -121,7 +121,7 @@ float osc_play_osc(osc *o, inputState *input )
 
 void init_osc(osc *o)
 {
-	o->waveform = osc_saw_wave;
+	o->waveform = osc_sine_wave;
     o->curOscPlaySetting = OSC_PLAY_SETTING_GLIDE;
 	o->curOscState = OSC_STATE_NOT_PLAYING;
 	o->nactiveVoices = NR_VOICES;
@@ -132,7 +132,7 @@ void init_osc(osc *o)
 
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{
-		env_init_env(&(o->polyphonies[i].env));
+		env_init_env_adsr(&(o->polyphonies[i].env), 0.015f, 0.7f, 0.5f, 1.f);
 		o->polyphonies[i].endPtr = o->polyphonies[i].oscVoices + sizeof(o->polyphonies[i].oscVoices)/ sizeof(o->polyphonies[i].oscVoices[i]);
 
 		for(uint16_t v = 0; v < NR_VOICES; v++)

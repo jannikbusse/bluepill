@@ -43,13 +43,7 @@ void init_dac(void);
 
 static inline __attribute__((always_inline)) uint32_t dac_rel_to_abs_voltage(float voltage)
 {
-    uint32_t res = 0;
-    if(voltage > 0.01f)
-    {
-        res = 6500000;
-    }
-    //pre configure the config bits
-    return ((uint32_t) (voltage *  13777215 ) )<<8;
+    return ((uint32_t) (voltage *  1777215.f ) )<<8;
 }
 
 #endif

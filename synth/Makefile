@@ -8,7 +8,7 @@ DEVICE=stm32f446retb
 OOCD_FILE = board/f446retb.cfg
 
 CFLAGS += -Os
-# LDLIBS += -lm 
+LDLIBS += -lm 
 
 
 
