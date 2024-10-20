@@ -45,6 +45,19 @@ float osc_saw_wave(float freq, float *phase)
 	return *phase - (int)*phase;
 }
 
+float osc_wt_wave(float freq, float *phase)
+{
+	
+	float phaseadd = (freq * osc_s_per_tick) ;
+	*phase += phaseadd ;
+	if (*phase >= 1.f) {
+		*phase -= 1.f;
+	}
+
+ 	return (uint32_t)(*phase * ((float)WAVETABLE_ENTRIES));
+
+}
+
 static float osc_play_polyphonies(osc *o, inputState *input)
 {
 
@@ -121,12 +134,12 @@ float osc_play_osc(osc *o, inputState *input )
 
 void init_osc(osc *o)
 {
-	o->waveform = osc_sine_wave;
+	o->waveform = osc_wt_wave;
     o->curOscPlaySetting = OSC_PLAY_SETTING_GLIDE;
 	o->curOscState = OSC_STATE_NOT_PLAYING;
 	o->nactiveVoices = NR_VOICES;
 	o->oneByNActiveVoices = 1.f / o->nactiveVoices;
-	o->volume = .1f;
+	o->volume = .05f;
 	o->glideSpeed =0.115f;
 	o->currentFrequency = 0;
 

@@ -10,6 +10,7 @@
 #include"osc.h"
 #include "music.h"
 #include "input.h"
+#include "wavetable.h"
 
 
 volatile bool audioSampleEventInterruptFlag = false; //true if a interrupt occurs
@@ -46,9 +47,15 @@ int main(void) {
 	rcc_periph_clock_enable(RCC_GPIOB);
 	rcc_periph_clock_enable(RCC_GPIOA);
 
+	wt_populate_wavetable(osc_sine_wave, sine_table);
+	wt_populate_wavetable(osc_sine_wave, current_Waveform);
+
+	
 	init_input(&inpState);
 	init_dac();
 	init_music(s_PER_TICK);
+
+
 	//set mode to output
 	gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO2);
 	gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO1);

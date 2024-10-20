@@ -1,7 +1,8 @@
 #include "wavetable.h"
+#include <math.h>
 
+volatile float sine_table[WAVETABLE_ENTRIES];
 
-extern volatile float sine_table[];
 
 
 void wt_populate_wavetable(float (*waveform)(float , float *), float* table)
@@ -14,6 +15,6 @@ void wt_populate_wavetable(float (*waveform)(float , float *), float* table)
     for (int i = 0; i < WAVETABLE_ENTRIES; i++)
     {
         
-        table[i] = waveform(440.f, &phase);
+        table[i] =((1.f+ sin(((float)i/(float)WAVETABLE_ENTRIES)*6.28318530717958647692f)) * 0.5f);
     }
 }   
