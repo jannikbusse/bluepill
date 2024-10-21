@@ -35,4 +35,4 @@ bin/src/osc.o: src/osc.c src/osc.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f234.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
  src/processing/foirrhp.h src/processing/../common.h src/wavetable.h \
- src/processing/envelope.h
+ src/processing/envelope.h src/processing/modulator.h

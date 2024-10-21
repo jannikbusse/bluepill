@@ -6,35 +6,34 @@
 #include "../common.h"
 #include "../input.h"
 #include "envelope.h"
+#include "modulator.h"
 
 extern uint8_t lpActive;
-static envelope lpEnvelope;
 
-static inline void init_lp(void)
-{
-    env_init_env(&lpEnvelope);
-    env_set_attack(&lpEnvelope, 0.0001f);
-    env_set_decay(&lpEnvelope, 0.1f);
-    env_set_sustain(&lpEnvelope, 0.7f);
-    env_set_release(&lpEnvelope, 2.f);
-}
 
-static inline void init_music_processor(void)
-{
-    init_lp();
+extern mod_connection lpEnvelope;
 
-}
+void init_lp(void);
+void init_music_processor(void);
 
-static inline float mp_lp(float raw_sample, inputState *in)
+
+static inline float mp_lp(float raw_sample)
 {
     if(!lpActive)
     {
         return raw_sample;
     } 
-    env_update_envelope(&lpEnvelope, in->activeKeyEvent);
-    lp_set_cuttoff_freq(lpEnvelope.current_scalar * 5000);
+    lp_set_cuttoff_freq(mod_modulate(&lpEnvelope, 0, 2000));
     return lp_filter_sample_fo(raw_sample);
 
+}
+
+static inline void __attribute__((always_inline)) mp_update_envelopes(inputState *in)
+{
+    for(int i = 0; i < NR_ENVELOPES;i++)
+    {
+        env_update_envelope(&(envelopes[i]), in->activeKeyEvent);
+    }
 }
 
 #endif

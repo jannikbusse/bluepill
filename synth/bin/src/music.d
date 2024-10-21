@@ -36,7 +36,7 @@ bin/src/music.o: src/music.c src/music.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f234.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
  src/processing/foirrhp.h src/processing/../common.h src/wavetable.h \
- src/processing/envelope.h src/dac.h \
+ src/processing/envelope.h src/processing/modulator.h src/dac.h \
  ../libopencm3/include/libopencm3/stm32/flash.h \
  ../libopencm3/include/libopencm3/stm32/f4/flash.h \
  ../libopencm3/include/libopencm3/stm32/common/flash_common_all.h \
@@ -55,4 +55,5 @@ bin/src/music.o: src/music.c src/music.h \
  ../libopencm3/include/libopencm3/stm32/f4/dma.h \
  ../libopencm3/include/libopencm3/stm32/common/dma_common_f24.h \
  src/processing/music_processor.h src/processing/folp.h \
- src/processing/../input.h src/processing/envelope.h
+ src/processing/../input.h src/processing/envelope.h \
+ src/processing/modulator.h

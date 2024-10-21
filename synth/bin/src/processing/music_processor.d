@@ -24,4 +24,5 @@ bin/src/processing/music_processor.o: src/processing/music_processor.c \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f24.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f234.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
- src/processing/../common.h src/processing/envelope.h
+ src/processing/../common.h src/processing/envelope.h \
+ src/processing/modulator.h

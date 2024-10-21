@@ -10,6 +10,7 @@
 #include "processing/foirrhp.h"
 #include "wavetable.h"
 #include "processing/envelope.h"
+#include "processing/modulator.h"
 
 
 enum OSC_PLAY_SETTING {
@@ -37,6 +38,7 @@ struct POLYPHONY
     voice oscVoices[NR_VOICES];
     voice* endPtr;
     envelope env;
+    mod_connection pitchModConnection;
 };
 typedef struct POLYPHONY polyphony;
 
@@ -46,7 +48,7 @@ struct OSC
     osc_play_setting curOscPlaySetting;
     osc_state curOscState;
     wavetable oscWaveTable;
-
+    mod_connection volEnvModCon;
     float currentFrequency;    
     float glideSpeed;
 

@@ -103,7 +103,7 @@ static float osc_play_glide(osc *o, inputState *input)
 	{
 		env_update_envelope(&(o->polyphonies[0].env), input->activeKeyEvent);
 
-		float fr =o->currentFrequency * p->freqOffset;
+		float fr = mod_modulate(&(o->polyphonies[0].pitchModConnection), o->currentFrequency * p->freqOffset, o->currentFrequency * p->freqOffset * 4.f);
 		float powerad = ((osc_wt_wave(fr, &(p->phase), &o->oscWaveTable)));
 		res += powerad;
 	}
@@ -138,7 +138,7 @@ void init_osc(osc *o)
 	o->nactiveVoices = NR_VOICES;
 	o->oneByNActiveVoices = 1.f / o->nactiveVoices;
 	o->volume = .1f;
-	o->glideSpeed =0.115f;
+	o->glideSpeed =0.0115f;
 	o->currentFrequency = 0;
 
 	wt_populate_wavetable(osc_saw_wave, &o->oscWaveTable);
@@ -147,6 +147,7 @@ void init_osc(osc *o)
 	{
 		env_init_env_adsr(&(o->polyphonies[i].env), 0.05f, 0.01f, 1.f, 1.f);
 		o->polyphonies[i].endPtr = o->polyphonies[i].oscVoices + sizeof(o->polyphonies[i].oscVoices)/ sizeof(o->polyphonies[i].oscVoices[i]);
+		mod_init_mod_connection(&(o->polyphonies[i].pitchModConnection), &(envelopes[1].current_scalar), MOD_CONNECTION_SIDE_RIGHT);
 
 		for(uint16_t v = 0; v < NR_VOICES; v++)
 		{

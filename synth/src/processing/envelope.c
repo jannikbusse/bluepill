@@ -1,6 +1,8 @@
 #include "envelope.h"
 
 
+envelope envelopes[NR_ENVELOPES];
+
 void env_init_env(envelope *env)
 {
     env->state = ENV_IDLE;
@@ -137,5 +139,11 @@ void env_update_envelope(envelope *env, key_event event)
         break;
     }
 
-    
+}
+
+void env_init_envelopes()
+{
+    env_init_env_adsr(&(envelopes[0]), 0.005, 0.2f, 0.03, 0.5);
+    env_init_env_adsr(&(envelopes[1]), 0.005, 0.04f, 0, 0);
+    env_init_env_adsr(&(envelopes[2]), 0.005, 0.2f, 0.03, 0.5);
 }
