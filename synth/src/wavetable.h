@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-#define WAVETABLE_ENTRIES 128 
+#define WAVETABLE_ENTRIES 2048 
 
 
 struct WAVETABLE
@@ -13,7 +13,7 @@ struct WAVETABLE
 };
 typedef struct WAVETABLE wavetable;
 
-extern wavetable sine_table[];
+extern wavetable sine_table;
 
 void wt_populate_wavetable(float (*waveform)(float , float *), wavetable* table);
 

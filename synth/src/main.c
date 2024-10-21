@@ -41,7 +41,7 @@ int main(void) {
 	rcc_periph_clock_enable(RCC_GPIOB);
 	rcc_periph_clock_enable(RCC_GPIOA);
 
-	wt_populate_wavetable(osc_sine_wave, sine_table);
+	wt_populate_wavetable(osc_sine_wave, &sine_table);
 
 	
 	init_input(&inpState);

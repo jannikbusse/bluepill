@@ -1,7 +1,7 @@
 #include "wavetable.h"
 #include <math.h>
 
-wavetable sine_table[WAVETABLE_ENTRIES];
+wavetable sine_table;
 
 
 void wt_populate_wavetable(float (*waveform)(float , float *), wavetable* table)

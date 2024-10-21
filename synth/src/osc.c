@@ -140,8 +140,7 @@ void init_osc(osc *o)
 	o->volume = .1f;
 	o->glideSpeed =0.0115f;
 	o->currentFrequency = 0;
-
-	wt_populate_wavetable(osc_saw_wave, &o->oscWaveTable);
+	wt_populate_wavetable(osc_sine_wave, &o->oscWaveTable);
 
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{

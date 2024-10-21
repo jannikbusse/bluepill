@@ -7,7 +7,7 @@ CFILES = src/main.c src/dac.c src/timer.c src/osc.c src/music.c src/input.c src/
 DEVICE=stm32f446retb
 OOCD_FILE = board/f446retb.cfg
 
-CFLAGS += -Os
+CFLAGS += -Os 
 LDLIBS += -lm 
 
 
