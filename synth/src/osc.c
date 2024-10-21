@@ -45,8 +45,9 @@ float osc_saw_wave(float freq, float *phase)
 	return *phase - (int)*phase;
 }
 
-float osc_wt_wave(float freq, float *phase)
+float osc_wt_wave(float freq, float *phase, wavetable *wt)
 {
+	float *o = wt->table;
 	
 	float phaseadd = (freq * osc_s_per_tick) ;
 	*phase += phaseadd ;
@@ -54,7 +55,7 @@ float osc_wt_wave(float freq, float *phase)
 		*phase -= 1.f;
 	}
 
- 	return (uint32_t)(*phase * ((float)WAVETABLE_ENTRIES));
+ 	return wt->table[(uint32_t)(*phase * ((float)WAVETABLE_ENTRIES))];
 
 }
 
@@ -70,7 +71,7 @@ static float osc_play_polyphonies(osc *o, inputState *input)
 			for(uint8_t v = 0; v <o->nactiveVoices; v ++)
 			{
 				float fr = (key_assignments[i]);
-				float powerad = ((o->waveform(fr, &(o->polyphonies[i].oscVoices[v].phase))));
+				float powerad = ((osc_wt_wave(fr, &(o->polyphonies[i].oscVoices[v].phase), &o->oscWaveTable)));
 				res += powerad;
 			}
 		}
@@ -97,15 +98,13 @@ static float osc_play_glide(osc *o, inputState *input)
 	{
 		o->currentFrequency -= MMIN(-glideadd, o->glideSpeed);
 	}
-	
-	
 
 	for(voice* p = o->polyphonies[0].oscVoices; p < o->polyphonies[0].endPtr; p++ )
 	{
 		env_update_envelope(&(o->polyphonies[0].env), input->activeKeyEvent);
 
 		float fr =o->currentFrequency * p->freqOffset;
-		float powerad = ((o->waveform(fr, &(p->phase))));
+		float powerad = ((osc_wt_wave(fr, &(p->phase), &o->oscWaveTable)));
 		res += powerad;
 	}
 
@@ -134,18 +133,19 @@ float osc_play_osc(osc *o, inputState *input )
 
 void init_osc(osc *o)
 {
-	o->waveform = osc_wt_wave;
     o->curOscPlaySetting = OSC_PLAY_SETTING_GLIDE;
 	o->curOscState = OSC_STATE_NOT_PLAYING;
 	o->nactiveVoices = NR_VOICES;
 	o->oneByNActiveVoices = 1.f / o->nactiveVoices;
-	o->volume = .05f;
+	o->volume = .1f;
 	o->glideSpeed =0.115f;
 	o->currentFrequency = 0;
 
+	wt_populate_wavetable(osc_saw_wave, &o->oscWaveTable);
+
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{
-		env_init_env_adsr(&(o->polyphonies[i].env), 0.015f, 0.7f, 0.5f, 1.f);
+		env_init_env_adsr(&(o->polyphonies[i].env), 0.05f, 0.01f, 1.f, 1.f);
 		o->polyphonies[i].endPtr = o->polyphonies[i].oscVoices + sizeof(o->polyphonies[i].oscVoices)/ sizeof(o->polyphonies[i].oscVoices[i]);
 
 		for(uint16_t v = 0; v < NR_VOICES; v++)

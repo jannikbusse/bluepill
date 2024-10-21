@@ -3,14 +3,19 @@
 
 #include "common.h"
 
-#define WAVETABLE_ENTRIES 4096 //2**12
+#define WAVETABLE_ENTRIES 128 
 
 
-extern float wavetable[];
-extern volatile float sine_table[];
+struct WAVETABLE
+{
+    uint16_t nEntries;
+    float table[WAVETABLE_ENTRIES];
+};
+typedef struct WAVETABLE wavetable;
 
+extern wavetable sine_table[];
 
-void wt_populate_wavetable(float (*waveform)(float , float *), float* table);
+void wt_populate_wavetable(float (*waveform)(float , float *), wavetable* table);
 
 
 #endif

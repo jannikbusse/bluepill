@@ -33,12 +33,6 @@ void init_clock()
 	// rcc_clock_setup_pll(&rcc_hse_8mhz_3v3[3]);
 }
 
-void dummy_usage_function(void);
-void dummy_usage_function()
-{
-	dummy_variable_not_used = sin_table[0];
-	dummy_variable_not_used = current_Waveform[0];
-}
 
 
 int main(void) {
@@ -48,7 +42,6 @@ int main(void) {
 	rcc_periph_clock_enable(RCC_GPIOA);
 
 	wt_populate_wavetable(osc_sine_wave, sine_table);
-	wt_populate_wavetable(osc_sine_wave, current_Waveform);
 
 	
 	init_input(&inpState);

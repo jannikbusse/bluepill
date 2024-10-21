@@ -8,8 +8,6 @@
 
 
 
-extern float current_Waveform[];
-
 
 void init_music(float s_per_tick);
 uint32_t music_play(uint8_t nosc, inputState *in);

@@ -1,6 +1,5 @@
 #include "common.h"
 
-const float sin_table[1024] __attribute__((used));
 
 const float s_PER_TICK  = (1.f/SAMPLE_FREQ_HZ);
 const float uS_PER_TICK = s_PER_TICK * 1000000;

@@ -29,6 +29,8 @@ struct  ENVELOPE
     float one_by_decay_duration;
     float one_by_release_duration;
 
+    
+
     float attack_duration;
     float decay_duration;
     float release_duration;

@@ -45,7 +45,7 @@ struct OSC
     polyphony polyphonies[NR_INPUTS]; //one polyphony output for each input
     osc_play_setting curOscPlaySetting;
     osc_state curOscState;
-    float (*waveform)(float freq, float *phase);
+    wavetable oscWaveTable;
 
     float currentFrequency;    
     float glideSpeed;
@@ -62,6 +62,7 @@ void init_osc(osc *o);
 float osc_square_wave(float freq, float *phase);
 float osc_saw_wave(float freq, float *phase);
 float osc_sine_wave(float freq, float *phase);
+float osc_wt_wave(float freq, float *phase, wavetable *wt);
 float osc_play_osc(osc *o, inputState *input);
 
 #endif
