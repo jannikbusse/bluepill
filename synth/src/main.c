@@ -83,11 +83,12 @@ int main(void) {
 
 		if(!OUT_BUFFER_FULL)
 		{
+			gpio_set(GPIOB, GPIO2);
 			currentSample.left = 0;
 			currentSample.right = 0;
 			music_play(0, &inpState, &currentSample);
 			music_write_to_buffer(&currentSample);
-
+			gpio_clear(GPIOB, GPIO2);
 
 		}
 	}
