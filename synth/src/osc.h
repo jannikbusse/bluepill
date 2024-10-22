@@ -49,6 +49,8 @@ struct OSC
     osc_state curOscState;
     wavetable oscWaveTable;
     mod_connection volEnvModCon;
+    mod_connection mp_mod_pitchLfo;
+    
     float currentFrequency;    
     float glideSpeed;
 

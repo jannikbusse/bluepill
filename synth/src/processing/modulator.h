@@ -41,4 +41,5 @@ inline float __attribute__((always_inline)) mod_modulate(mod_connection *mod, fl
 void mod_init_mod_connection(mod_connection *mod, float *target_scalar, mod_connection_side side);
 
 
+
 #endif

@@ -45,7 +45,7 @@ float osc_saw_wave(float freq, float *phase)
 	return *phase - (int)*phase;
 }
 
-float osc_wt_wave(float freq, float *phase, wavetable *wt)
+inline __attribute__((always_inline)) float osc_wt_wave(float freq, float *phase, wavetable *wt)
 {
 	float *o = wt->table;
 	
@@ -54,8 +54,7 @@ float osc_wt_wave(float freq, float *phase, wavetable *wt)
 	if (*phase >= 1.f) {
 		*phase -= 1.f;
 	}
-
- 	return wt->table[(uint32_t)(*phase * ((float)WAVETABLE_ENTRIES))];
+	return wt_lookup(*phase, wt);
 
 }
 
@@ -103,7 +102,9 @@ static float osc_play_glide(osc *o, inputState *input)
 	{
 		env_update_envelope(&(o->polyphonies[0].env), input->activeKeyEvent);
 
-		float fr = mod_modulate(&(o->polyphonies[0].pitchModConnection), o->currentFrequency * p->freqOffset, o->currentFrequency * p->freqOffset * 4.f);
+		float raw_freq = o->currentFrequency * p->freqOffset;
+		float lfo_modulated = mod_modulate(&(o->mp_mod_pitchLfo),raw_freq, raw_freq*0.03f);
+		float fr = mod_modulate(&(o->polyphonies[0].pitchModConnection), lfo_modulated, lfo_modulated * 4.f);
 		float powerad = ((osc_wt_wave(fr, &(p->phase), &o->oscWaveTable)));
 		res += powerad;
 	}
@@ -140,13 +141,12 @@ void init_osc(osc *o)
 	o->volume = .1f;
 	o->glideSpeed =0.0115f;
 	o->currentFrequency = 0;
-	wt_populate_wavetable(osc_sine_wave, &o->oscWaveTable);
+	wt_populate_wavetable(osc_saw_wave, &o->oscWaveTable);
 
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{
-		env_init_env_adsr(&(o->polyphonies[i].env), 0.05f, 0.01f, 1.f, 1.f);
+		env_init_env_adsr(&(o->polyphonies[i].env), 0.05f, 0.01f, 0.8f, 0.2f);
 		o->polyphonies[i].endPtr = o->polyphonies[i].oscVoices + sizeof(o->polyphonies[i].oscVoices)/ sizeof(o->polyphonies[i].oscVoices[i]);
-		mod_init_mod_connection(&(o->polyphonies[i].pitchModConnection), &(envelopes[1].current_scalar), MOD_CONNECTION_SIDE_RIGHT);
 
 		for(uint16_t v = 0; v < NR_VOICES; v++)
 		{

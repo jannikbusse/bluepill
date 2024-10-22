@@ -1,5 +1,4 @@
 #include "music.h"
-#include "processing/music_processor.h"
 
 
 osc oscilator[1];
@@ -20,7 +19,7 @@ uint32_t music_play(uint8_t nosc, inputState *in)
     
     float raw_sample = osc_play_osc(&(oscilator[nosc]), in);
 
-    mp_update_envelopes(in);
+    mp_update(in);
     float lp_filtered =  mp_lp(raw_sample);
 	in->eventsConsumed = true;
     tick_counter ++;

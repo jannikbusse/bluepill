@@ -26,9 +26,9 @@
 extern const float s_PER_TICK;
 extern const float uS_PER_TICK;
 extern const float INPUT_EACH_N_SAMPLE;
-
 extern float key_assignments[];
 extern uint64_t tick_counter;
+
 
 enum KEY_EVENT {
     KEY_EVENT_PRESSED,

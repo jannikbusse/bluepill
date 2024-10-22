@@ -57,4 +57,9 @@ bin/src/main.o: src/main.c ../libopencm3/include/libopencm3/stm32/rcc.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/_ansi.h \
  src/osc.h src/input.h src/processing/foirrhp.h \
  src/processing/../common.h src/wavetable.h src/processing/envelope.h \
- src/processing/modulator.h src/music.h
+ src/processing/modulator.h src/music.h src/processing/music_processor.h \
+ src/processing/folp.h src/processing/../input.h \
+ src/processing/envelope.h src/processing/modulator.h \
+ src/processing/modmatrix.h src/processing/lfo.h \
+ src/processing/../wavetable.h src/processing/../osc.h \
+ src/processing/../music.h
