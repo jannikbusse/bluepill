@@ -13,11 +13,12 @@
 #include "wavetable.h"
 
 
+
 volatile bool audioSampleEventInterruptFlag = false; //true if a interrupt occurs
 volatile bool inputSampleEventInterruptFlag = false; 
 
 inputState inpState;
-
+audio_sample_t currentSample;
 
 uint16_t sample_increment = 0;
 uint64_t tick_counter = 0;
@@ -47,7 +48,8 @@ int main(void) {
 	init_input(&inpState);
 	init_dac();
 	init_music(s_PER_TICK);
-
+	currentSample.left = 0;	
+	currentSample.right = 0;
 
 	//set mode to output
 	gpio_mode_setup(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO2);
@@ -81,8 +83,10 @@ int main(void) {
 
 		if(!OUT_BUFFER_FULL)
 		{
-			uint32_t buff = music_play(0, &inpState);
-			music_write_to_buffer(buff);
+			currentSample.left = 0;
+			currentSample.right = 0;
+			music_play(0, &inpState, &currentSample);
+			music_write_to_buffer(&currentSample);
 
 
 		}

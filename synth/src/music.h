@@ -1,7 +1,6 @@
 #ifndef MUSIC_H
 #define MUSIC_H
 
-#include <stdint.h>
 #include "osc.h"
 #include "dac.h"
 #include "common.h"
@@ -11,13 +10,18 @@
 extern osc oscilator[];
 
 void init_music(float s_per_tick);
-uint32_t music_play(uint8_t nosc, inputState *in);
 
-static inline void music_write_to_buffer(uint32_t voltage)
+
+void music_play(uint8_t nosc, inputState *in, audio_sample_t *out);
+
+
+
+inline __attribute__((always_inline)) void music_write_to_buffer(audio_sample_t *out)
 {
-    outputBuffer[bufferHead++] = voltage;
-    outputBuffer[bufferHead++] = voltage;
-}
+    
+    outputBuffer[bufferHead++] = dac_rel_to_abs_voltage(out->left);
+    outputBuffer[bufferHead++] = dac_rel_to_abs_voltage(out->right);
+}   
 
 
 #endif

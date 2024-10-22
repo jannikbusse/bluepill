@@ -41,9 +41,9 @@ void init_dac(void);
 
 
 
-static inline __attribute__((always_inline)) uint32_t dac_rel_to_abs_voltage(float voltage)
+inline __attribute__((always_inline)) uint32_t dac_rel_to_abs_voltage(float voltage)
 {
-    return ((uint32_t) (voltage *  1777215.f ) )<<8;
+    return ((uint32_t) (voltage *  3777215.f ) )<<8;
 }
 
 #endif

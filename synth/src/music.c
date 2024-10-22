@@ -14,16 +14,13 @@ void init_music(float s_per_tick)
     init_music_processor();
 }
 
-uint32_t music_play(uint8_t nosc, inputState *in)
+void music_play(uint8_t nosc, inputState *in, audio_sample_t *out)
 {
     
-    float raw_sample = osc_play_osc(&(oscilator[nosc]), in);
+    osc_play_osc(&(oscilator[nosc]), in, out);
 
     mp_update(in);
-    float lp_filtered =  mp_lp(raw_sample);
+    //mp_lp(out);
 	in->eventsConsumed = true;
     tick_counter ++;
-
-    return dac_rel_to_abs_voltage(lp_filtered);
 }
-

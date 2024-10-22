@@ -20,7 +20,7 @@ void wt_populate_wavetable(float (*waveform)(float , float *), wavetable* table)
 /**
  * @brief Look up a value in the wavetable. Phase needs to be between 0 and 1!
  */
-static inline float __attribute__((always_inline)) wt_lookup(float phase, wavetable *wt)
+inline float __attribute__((always_inline)) wt_lookup(float phase, wavetable *wt)
 {
     return wt->table[(uint32_t)(phase * ((float)WAVETABLE_ENTRIES))];
 }

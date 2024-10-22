@@ -26,8 +26,7 @@ bin/src/processing/music_processor.o: src/processing/music_processor.c \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
  src/processing/../common.h src/processing/envelope.h \
  src/processing/modulator.h src/processing/modmatrix.h \
- src/processing/lfo.h src/processing/../wavetable.h \
- src/processing/../osc.h \
+ src/processing/../music.h src/processing/../osc.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/math.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/sys/reent.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/_ansi.h \
@@ -43,8 +42,7 @@ bin/src/processing/music_processor.o: src/processing/music_processor.c \
  src/processing/../input.h src/processing/../processing/foirrhp.h \
  src/processing/../processing/../common.h src/processing/../wavetable.h \
  src/processing/../processing/envelope.h \
- src/processing/../processing/modulator.h src/processing/../music.h \
- src/processing/../osc.h src/processing/../dac.h \
+ src/processing/../processing/modulator.h src/processing/../dac.h \
  ../libopencm3/include/libopencm3/stm32/flash.h \
  ../libopencm3/include/libopencm3/stm32/f4/flash.h \
  ../libopencm3/include/libopencm3/stm32/common/flash_common_all.h \
@@ -62,4 +60,5 @@ bin/src/processing/music_processor.o: src/processing/music_processor.c \
  ../libopencm3/include/libopencm3/stm32/dma.h \
  ../libopencm3/include/libopencm3/stm32/f4/dma.h \
  ../libopencm3/include/libopencm3/stm32/common/dma_common_f24.h \
- src/processing/../processing/music_processor.h
+ src/processing/../processing/music_processor.h src/processing/lfo.h \
+ src/processing/../wavetable.h src/processing/../osc.h

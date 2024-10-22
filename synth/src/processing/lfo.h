@@ -23,7 +23,7 @@ extern lfo lfos[];
 void lfo_init_lfo(lfo *lfo);
 void lfo_init_lfos(void);
 
-static inline __attribute__((always_inline)) void lfo_update_lfo(lfo *_lfo)
+inline __attribute__((always_inline)) void lfo_update_lfo(lfo *_lfo)
 {
     _lfo->phase += _lfo->freq * s_PER_TICK;
     if (_lfo->phase >= 1.f)

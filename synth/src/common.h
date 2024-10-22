@@ -29,6 +29,12 @@ extern const float INPUT_EACH_N_SAMPLE;
 extern float key_assignments[];
 extern uint64_t tick_counter;
 
+struct AUDIO_SAMPLE
+{
+    float left;
+    float right;
+};
+typedef struct AUDIO_SAMPLE audio_sample_t;
 
 enum KEY_EVENT {
     KEY_EVENT_PRESSED,

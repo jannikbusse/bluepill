@@ -17,6 +17,13 @@
         "timer": "c",
         "foirrhp.h": "c",
         "dma.h": "c",
-        "input.h": "c"
+        "input.h": "c",
+        "envelope.h": "c",
+        "wavetable.h": "c",
+        "music_processor.h": "c",
+        "lfo.h": "c",
+        "modmatrix.h": "c",
+        "modulator.h": "c",
+        "folp.h": "c"
     }
 }

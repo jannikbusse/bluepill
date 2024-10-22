@@ -1,7 +1,6 @@
 #ifndef ENV_H
 #define ENV_H
 
-#include <stdint.h>
 #include "../common.h"
 
 #define NR_ENVELOPES 3
