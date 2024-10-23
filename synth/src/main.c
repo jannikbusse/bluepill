@@ -6,6 +6,7 @@
 #include <libopencm3/stm32/flash.h>
 #include "timer.h"
 #include "dac.h"
+#include "adc.h"
 #include <math.h>
 #include"osc.h"
 #include "music.h"
@@ -17,7 +18,7 @@
 volatile bool audioSampleEventInterruptFlag = false; //true if a interrupt occurs
 volatile bool inputSampleEventInterruptFlag = false; 
 
-inputState inpState;
+inputState_t inpState;
 audio_sample_t currentSample;
 
 uint16_t sample_increment = 0;
@@ -47,7 +48,9 @@ int main(void) {
 	
 	init_input(&inpState);
 	init_dac();
+	init_adc();
 	init_music(s_PER_TICK);
+	mod_init_poti_connections(&inpState);
 	currentSample.left = 0;	
 	currentSample.right = 0;
 
@@ -61,14 +64,11 @@ int main(void) {
 		__asm volatile ("nop");
 	}
 
-	for(int i = 0; i < BUFF_SIZE; i++)
-	{
-		outputBuffer[i] = 123456;
-	}
-
 	
 	while(1)
 	{
+
+
 		if(++sample_increment >= INPUT_EACH_N_SAMPLE)
 		{
 			sample_increment = 0;
@@ -83,12 +83,12 @@ int main(void) {
 
 		if(!OUT_BUFFER_FULL)
 		{
-			gpio_set(GPIOB, GPIO2);
+			gpio_set(GPIOB, GPIO1);
 			currentSample.left = 0;
 			currentSample.right = 0;
 			music_play(0, &inpState, &currentSample);
 			music_write_to_buffer(&currentSample);
-			gpio_clear(GPIOB, GPIO2);
+			gpio_clear(GPIOB, GPIO1);
 
 		}
 	}

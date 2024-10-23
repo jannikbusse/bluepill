@@ -37,6 +37,10 @@ bin/src/processing/modmatrix.o: src/processing/modmatrix.c \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f24.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f234.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
+ src/processing/../adc.h ../libopencm3/include/libopencm3/stm32/adc.h \
+ ../libopencm3/include/libopencm3/stm32/f4/adc.h \
+ ../libopencm3/include/libopencm3/stm32/common/adc_common_v1_multi.h \
+ ../libopencm3/include/libopencm3/stm32/common/adc_common_v1.h \
  src/processing/../processing/foirrhp.h \
  src/processing/../processing/../common.h src/processing/../wavetable.h \
  src/processing/../processing/envelope.h \
@@ -67,4 +71,5 @@ bin/src/processing/modmatrix.o: src/processing/modmatrix.c \
  src/processing/../processing/lfo.h \
  src/processing/../processing/../wavetable.h \
  src/processing/../processing/../osc.h src/processing/modulator.h \
- src/processing/envelope.h src/processing/lfo.h src/processing/../osc.h
+ src/processing/envelope.h src/processing/lfo.h src/processing/../input.h \
+ src/processing/../osc.h

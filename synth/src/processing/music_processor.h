@@ -28,7 +28,7 @@ inline __attribute__((always_inline)) void mp_lp(audio_sample_t *out)
     out->right = lp_filter_sample_fo(out->right);
 }
 
-inline void __attribute__((always_inline)) mp_update(inputState *in)
+inline void __attribute__((always_inline)) mp_update(inputState_t *in)
 {
     //update envelopes
     for(int i = 0; i < NR_ENVELOPES;i++)

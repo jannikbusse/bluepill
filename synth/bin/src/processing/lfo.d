@@ -36,6 +36,10 @@ bin/src/processing/lfo.o: src/processing/lfo.c src/processing/lfo.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f24.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f234.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
+ src/processing/../adc.h ../libopencm3/include/libopencm3/stm32/adc.h \
+ ../libopencm3/include/libopencm3/stm32/f4/adc.h \
+ ../libopencm3/include/libopencm3/stm32/common/adc_common_v1_multi.h \
+ ../libopencm3/include/libopencm3/stm32/common/adc_common_v1.h \
  src/processing/../processing/foirrhp.h \
  src/processing/../processing/../common.h src/processing/../wavetable.h \
  src/processing/../processing/envelope.h \

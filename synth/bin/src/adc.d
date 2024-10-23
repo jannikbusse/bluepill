@@ -1,4 +1,4 @@
-bin/src/input.o: src/input.c src/input.h \
+bin/src/adc.o: src/adc.c src/adc.h \
  ../libopencm3/include/libopencm3/stm32/rcc.h \
  ../libopencm3/include/libopencm3/cm3/common.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/lib/gcc/arm-none-eabi/13.3.1/include/stdint.h \
@@ -22,12 +22,7 @@ bin/src/input.o: src/input.c src/input.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f24.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f234.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
- src/common.h src/adc.h ../libopencm3/include/libopencm3/stm32/adc.h \
+ ../libopencm3/include/libopencm3/stm32/adc.h \
  ../libopencm3/include/libopencm3/stm32/f4/adc.h \
  ../libopencm3/include/libopencm3/stm32/common/adc_common_v1_multi.h \
- ../libopencm3/include/libopencm3/stm32/common/adc_common_v1.h \
- ../libopencm3/include/libopencm3/stm32/spi.h \
- ../libopencm3/include/libopencm3/stm32/f4/spi.h \
- ../libopencm3/include/libopencm3/stm32/common/spi_common_v1_frf.h \
- ../libopencm3/include/libopencm3/stm32/common/spi_common_v1.h \
- ../libopencm3/include/libopencm3/stm32/common/spi_common_all.h
+ ../libopencm3/include/libopencm3/stm32/common/adc_common_v1.h

@@ -89,7 +89,7 @@ float release_envelope_lin(float t, float oneByDuration, float sustainCeiling)
     return sustainCeiling * (1 - t * oneByDuration);
 }
 
-void env_update_envelope(envelope *env, key_event event)
+void env_update_envelope(envelope *env, key_event_t event)
 {
     //handle inputs first
     if(event == KEY_EVENT_PRESSED)
@@ -100,7 +100,6 @@ void env_update_envelope(envelope *env, key_event event)
     {
         env->state = ENV_RELEASE;
         env->time_since_last_state_change = 0;
-
     }
     
     //In here is a bug that one tick is calculated after the time limit is reached ...

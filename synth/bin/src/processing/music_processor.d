@@ -24,9 +24,14 @@ bin/src/processing/music_processor.o: src/processing/music_processor.c \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f24.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_f234.h \
  ../libopencm3/include/libopencm3/stm32/common/gpio_common_all.h \
- src/processing/../common.h src/processing/envelope.h \
- src/processing/modulator.h src/processing/modmatrix.h \
- src/processing/../music.h src/processing/../osc.h \
+ src/processing/../common.h src/processing/../adc.h \
+ ../libopencm3/include/libopencm3/stm32/adc.h \
+ ../libopencm3/include/libopencm3/stm32/f4/adc.h \
+ ../libopencm3/include/libopencm3/stm32/common/adc_common_v1_multi.h \
+ ../libopencm3/include/libopencm3/stm32/common/adc_common_v1.h \
+ src/processing/envelope.h src/processing/modulator.h \
+ src/processing/modmatrix.h src/processing/../music.h \
+ src/processing/../osc.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/math.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/sys/reent.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/_ansi.h \

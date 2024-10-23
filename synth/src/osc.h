@@ -1,8 +1,8 @@
 #ifndef OSC_H
 #define OSC_H
 
-#define NR_VOICES (5)
-#define MAX_POLYPHONIES NR_INPUTS
+#define NR_VOICES (3)
+#define MAX_POLYPHONIES NR_KEYS
 #include <math.h>
 #include <stdint.h>
 #include "common.h"
@@ -45,7 +45,7 @@ typedef struct POLYPHONY polyphony;
 
 struct OSC
 {
-    polyphony polyphonies[NR_INPUTS]; //one polyphony output for each input
+    polyphony polyphonies[NR_KEYS]; //one polyphony output for each input
     osc_play_setting curOscPlaySetting;
     osc_state curOscState;
     wavetable oscWaveTable;
@@ -56,7 +56,6 @@ struct OSC
     float glideSpeed;
 
     uint16_t nactiveVoices;
-    float oneByNActiveVoices;
     float volume;
 
 };
@@ -71,8 +70,10 @@ float osc_wt_wave(float freq, float *phase, wavetable *wt);
 
 //global variable that belongs to osc_play_glide
 extern float activeFrequency;
-void osc_play_glide(osc *o, inputState *input, audio_sample_t *out);
-void osc_play_polyphonies(osc *o, inputState *input, audio_sample_t *out);
-void osc_play_osc(osc *o, inputState *input , audio_sample_t *out);
+void osc_play_glide(osc *o, inputState_t *input, audio_sample_t *out);
+void osc_play_polyphonies(osc *o, inputState_t *input, audio_sample_t *out);
+void osc_play_osc(osc *o, inputState_t *input , audio_sample_t *out);
+
+
 
 #endif

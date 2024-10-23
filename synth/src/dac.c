@@ -20,7 +20,6 @@ void dma2_stream4_isr(void) {
     if (dma_get_interrupt_flag(DMA2, DMA_STREAM4, DMA_HTIF)) {
         // Clear the interrupt flag
         dma_clear_interrupt_flags(DMA2, DMA_STREAM4, DMA_HTIF);
-        gpio_toggle(GPIOB, GPIO2);
 
         bufferTail =  BUFF_SIZE/2;
     }

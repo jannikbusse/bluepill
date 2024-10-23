@@ -12,7 +12,7 @@ extern osc oscilator[];
 void init_music(float s_per_tick);
 
 
-void music_play(uint8_t nosc, inputState *in, audio_sample_t *out);
+void music_play(uint8_t nosc, inputState_t *in, audio_sample_t *out);
 
 
 

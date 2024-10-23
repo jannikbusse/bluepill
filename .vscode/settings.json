@@ -24,6 +24,8 @@
         "lfo.h": "c",
         "modmatrix.h": "c",
         "modulator.h": "c",
-        "folp.h": "c"
+        "folp.h": "c",
+        "adc.h": "c",
+        "executor": "c"
     }
 }

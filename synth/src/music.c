@@ -14,13 +14,15 @@ void init_music(float s_per_tick)
     init_music_processor();
 }
 
-void music_play(uint8_t nosc, inputState *in, audio_sample_t *out)
+void music_play(uint8_t nosc, inputState_t *in, audio_sample_t *out)
 {
-    
+
+
+
     osc_play_osc(&(oscilator[nosc]), in, out);
 
     mp_update(in);
-    mp_lp(out);
+    // mp_lp(out);
 	in->eventsConsumed = true;
     tick_counter ++;
 }

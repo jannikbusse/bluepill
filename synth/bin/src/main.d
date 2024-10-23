@@ -42,7 +42,10 @@ bin/src/main.o: src/main.c ../libopencm3/include/libopencm3/stm32/rcc.h \
  ../libopencm3/include/libopencm3/stm32/dma.h \
  ../libopencm3/include/libopencm3/stm32/f4/dma.h \
  ../libopencm3/include/libopencm3/stm32/common/dma_common_f24.h \
- src/common.h \
+ src/common.h src/adc.h ../libopencm3/include/libopencm3/stm32/adc.h \
+ ../libopencm3/include/libopencm3/stm32/f4/adc.h \
+ ../libopencm3/include/libopencm3/stm32/common/adc_common_v1_multi.h \
+ ../libopencm3/include/libopencm3/stm32/common/adc_common_v1.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/math.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/sys/reent.h \
  /home/jannik/Projects/STM32/arm-gnu-toolchain-13.3.rel1-x86_64-arm-none-eabi/arm-none-eabi/include/_ansi.h \

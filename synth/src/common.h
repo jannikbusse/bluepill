@@ -16,8 +16,9 @@
 #define INPUT4      GPIO11 
 #define INPUT5      GPIO12 
 
-#define NR_INPUTS        4
-#define KEY_UNPRESSED    255
+#define NR_KEYS             4
+#define NR_POTENTIOMETERS   1
+#define KEY_UNPRESSED       255
 
 //#define CLOCK_SPEED_HZ 			180000000 //in hz
 #define SAMPLE_FREQ_HZ			44100.f
@@ -41,6 +42,6 @@ enum KEY_EVENT {
     KEY_EVENT_RELEASED,
     KEY_EVENT_NOTHING
 };
-typedef enum KEY_EVENT key_event;
+typedef enum KEY_EVENT key_event_t;
 
 #endif

@@ -57,12 +57,12 @@ float osc_wt_wave(float freq, float *phase, wavetable *wt)
 	return wt_lookup(*phase, wt);
 }
 
-void osc_play_polyphonies(osc *o, inputState *input, audio_sample_t *out)
+void osc_play_polyphonies(osc *o, inputState_t *input, audio_sample_t *out)
 {
 
 	float res = 0;
 	uint8_t activePolyphonies = 0;
-	for(uint8_t i = 0; i < NR_INPUTS; i++)
+	for(uint8_t i = 0; i < NR_KEYS; i++)
 	{
 		if(input->keys[i].pressed && activePolyphonies < MAX_POLYPHONIES)
 		{
@@ -74,12 +74,12 @@ void osc_play_polyphonies(osc *o, inputState *input, audio_sample_t *out)
 			}
 		}
 	}
-	out->left =  res * o->volume * o->oneByNActiveVoices;
+	out->left =  res * o->volume;
 	out->right = out->left;
 }
 
 
-void osc_play_glide(osc *o, inputState *input, audio_sample_t *out)
+void osc_play_glide(osc *o, inputState_t *input, audio_sample_t *out)
 {
 	if(input->activeKey != KEY_UNPRESSED)
 	{
@@ -98,24 +98,25 @@ void osc_play_glide(osc *o, inputState *input, audio_sample_t *out)
 		o->currentFrequency -= MMIN(-glideadd, o->glideSpeed);
 	}
     env_update_envelope(&(o->polyphonies[0].env), input->activeKeyEvent);
-
+	
 	for(voice* p = o->polyphonies[0].oscVoices; p < o->polyphonies[0].endPtr; p++ )
 	{
 
 		float raw_freq = o->currentFrequency * p->freqOffset;
-		float lfo_modulated = mod_modulate(&(o->mp_mod_pitchLfo),raw_freq, raw_freq*0.05f);
+		float lfo_modulated = mod_modulate(&(o->mp_mod_pitchLfo),raw_freq, raw_freq * 0.25f);
 		float fr = mod_modulate(&(o->polyphonies[0].pitchModConnection), lfo_modulated, lfo_modulated * 4.f);
 		float powerad = ((osc_wt_wave(fr, &(p->phase), &o->oscWaveTable)));
 		out->right += powerad * (1-p->pan);
 		out->left += powerad * p->pan;
 	}
 
-	out->left  *= o->volume * o->oneByNActiveVoices * o->polyphonies[0].env.current_scalar;
-	out->right *= o->volume * o->oneByNActiveVoices * o->polyphonies[0].env.current_scalar;
+	out->left  *= o->volume  * o->polyphonies[0].env.current_scalar;
+	out->right *= o->volume  * o->polyphonies[0].env.current_scalar;
 }
 
-void osc_play_osc(osc *o, inputState *input , audio_sample_t *out)
+void osc_play_osc(osc *o, inputState_t *input , audio_sample_t *out)
 {
+
 	//state logic
 	switch (o->curOscPlaySetting)
 	{
@@ -140,16 +141,15 @@ void init_osc(osc *o)
     o->curOscPlaySetting = OSC_PLAY_SETTING_GLIDE;
 	o->curOscState = OSC_STATE_NOT_PLAYING;
 	o->nactiveVoices = NR_VOICES;
-	o->oneByNActiveVoices = 1.f / o->nactiveVoices;
 	o->volume = .4f;
-	o->glideSpeed =0.135f;
+	o->glideSpeed =0.035f;
 	o->currentFrequency = 0;
 	wt_populate_wavetable(osc_square_wave, &o->oscWaveTable);
 
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{
-		env_init_env_adsr(&(o->polyphonies[i].env), 0.05f, 0.01f, 0.8f, 0.1f);
-		o->polyphonies[i].endPtr = o->polyphonies[i].oscVoices + sizeof(o->polyphonies[i].oscVoices)/ sizeof(o->polyphonies[i].oscVoices[i]);
+		env_init_env_adsr(&(o->polyphonies[i].env), 0.05f, 0.01f, 0.8f, 0.5f);
+		o->polyphonies[i].endPtr = o->polyphonies[i].oscVoices + NR_VOICES;
 
 		for(uint16_t v = 0; v < NR_VOICES; v++)
 		{
@@ -162,11 +162,11 @@ void init_osc(osc *o)
 	}
 	//tmp
 	o->polyphonies[0].oscVoices[0].pan = 0.f;
-	o->polyphonies[0].oscVoices[1].pan = 0.4f;
+	o->polyphonies[0].oscVoices[1].pan = 1.f;
 	
 	o->polyphonies[0].oscVoices[2].pan = 0.5f;	
 
-	o->polyphonies[0].oscVoices[3].pan = 0.6f;
-	o->polyphonies[0].oscVoices[4].pan = 1.f;
+	// o->polyphonies[0].oscVoices[3].pan = 0.6f;
+	// o->polyphonies[0].oscVoices[4].pan = 1.f;
 
 }

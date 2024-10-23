@@ -7,7 +7,6 @@
 
 float attack_envelope_lin (float t, float oneByDuration);
 float decay_envelope_lin  (float t, float oneByDuration, float sustainCeiling);
-float sustain_envelope_lin(float t, float oneByDuration, float sustainCeiling);
 float release_envelope_lin(float t, float oneByDuration, float sustainCeiling);
 
 enum ENV_STATE {
@@ -49,7 +48,7 @@ extern envelope envelopes[];
 
 void env_init_env(envelope *env);
 void env_init_envelopes(void);
-void env_update_envelope(envelope *env, key_event event);
+void env_update_envelope(envelope *env, key_event_t event);
 void env_init_env_adsr(envelope *env, float a, float d, float s, float r);
 void env_set_attack(envelope *env, float duration);
 void env_set_decay(envelope *env, float duration);
