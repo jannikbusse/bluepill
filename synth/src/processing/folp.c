@@ -6,6 +6,7 @@ float lp_alpha = 0;
 float lastOutSample = 0;
 
 
+
 float lp_filter_sample_fo(float sample)
 {
     float res = (lp_alpha * sample) + ((1-lp_alpha) * lastOutSample);

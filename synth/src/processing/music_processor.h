@@ -12,6 +12,7 @@
 extern uint8_t lpActive;
 
 extern mod_connection mp_mod_lpEnvelope;
+extern float mp_lp_baseCutOffFreq;
 
 void init_lp(void);
 void init_music_processor(void);
@@ -23,7 +24,7 @@ inline __attribute__((always_inline)) void mp_lp(audio_sample_t *out)
     {
         return;
     } 
-    lp_set_cuttoff_freq(mod_modulate(&mp_mod_lpEnvelope, 0, 500));
+    lp_set_cuttoff_freq(mp_lp_baseCutOffFreq + mod_modulate(&mp_mod_lpEnvelope,1));
     out->left = lp_filter_sample_fo(out->left);
     out->right = lp_filter_sample_fo(out->right);
 }

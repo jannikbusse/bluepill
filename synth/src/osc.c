@@ -103,8 +103,8 @@ void osc_play_glide(osc *o, inputState_t *input, audio_sample_t *out)
 	{
 
 		float raw_freq = o->currentFrequency * p->freqOffset;
-		float lfo_modulated = mod_modulate(&(o->mp_mod_pitchLfo),raw_freq, raw_freq * 0.25f);
-		float fr = mod_modulate(&(o->polyphonies[0].pitchModConnection), lfo_modulated, lfo_modulated * 4.f);
+		float lfo_modulated = raw_freq + mod_modulate(&(o->mp_mod_pitchLfo),raw_freq);
+		float fr = lfo_modulated + mod_modulate(&(o->polyphonies[0].pitchModConnection), lfo_modulated);
 		float powerad = ((osc_wt_wave(fr, &(p->phase), &o->oscWaveTable)));
 		out->right += powerad * (1-p->pan);
 		out->left += powerad * p->pan;
@@ -144,11 +144,11 @@ void init_osc(osc *o)
 	o->volume = .4f;
 	o->glideSpeed =0.035f;
 	o->currentFrequency = 0;
-	wt_populate_wavetable(osc_square_wave, &o->oscWaveTable);
+	wt_populate_wavetable(osc_saw_wave, &o->oscWaveTable);
 
 	for(uint16_t i = 0; i < MAX_POLYPHONIES; i++)
 	{
-		env_init_env_adsr(&(o->polyphonies[i].env), 0.05f, 0.01f, 0.8f, 0.5f);
+		env_init_env_adsr(&(o->polyphonies[i].env), 0.05f, 0.01f, 0.8f, 0.1f);
 		o->polyphonies[i].endPtr = o->polyphonies[i].oscVoices + NR_VOICES;
 
 		for(uint16_t v = 0; v < NR_VOICES; v++)
@@ -156,17 +156,11 @@ void init_osc(osc *o)
 			o->polyphonies[i].oscVoices[v].phase = 0;
 			o->polyphonies[i].oscVoices[v].pan = 0.f;
 			
-			o->polyphonies[i].oscVoices[v].freqOffset = 1 + 0.011f * (((NR_VOICES/2) -v));
+			o->polyphonies[i].oscVoices[v].freqOffset = 1 + 0.012f * (((NR_VOICES/2) -v));
+			o->polyphonies[i].oscVoices[v].pan = 0.5 + 0.162f * (((NR_VOICES/2) -v));
 			// o->polyphonies[i].oscVoices[v].volume = FIXPOINT_DECIMAL_PLACES - (200000 * (c_abs64((NR_VOICES/2) -v)));
 		}
 	}
 	//tmp
-	o->polyphonies[0].oscVoices[0].pan = 0.f;
-	o->polyphonies[0].oscVoices[1].pan = 1.f;
-	
-	o->polyphonies[0].oscVoices[2].pan = 0.5f;	
-
-	// o->polyphonies[0].oscVoices[3].pan = 0.6f;
-	// o->polyphonies[0].oscVoices[4].pan = 1.f;
 
 }

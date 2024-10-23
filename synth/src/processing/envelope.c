@@ -143,7 +143,7 @@ void env_update_envelope(envelope *env, key_event_t event)
 
 void env_init_envelopes()
 {
-    env_init_env_adsr(&(envelopes[0]), 0.005, 0.03f, 0.0, 0);
-    env_init_env_adsr(&(envelopes[1]), 0.005, 0.04f, .8f, 0);
+    env_init_env_adsr(&(envelopes[0]), 0.005, 0.17f, 0.0, 0);
+    env_init_env_adsr(&(envelopes[1]), 0.005, 0.3f, 0.0f, 0);
     env_init_env_adsr(&(envelopes[2]), 0.005, 0.2f, 0.03, 0.5);
 }

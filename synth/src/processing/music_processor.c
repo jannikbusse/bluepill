@@ -1,6 +1,8 @@
 #include "music_processor.h"
 
 uint8_t lpActive = 1;
+float mp_lp_baseCutOffFreq = 10000;
+
 
 void init_lp()
 {

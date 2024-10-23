@@ -13,29 +13,41 @@ typedef enum MOD_CONNECTION_SIDE mod_connection_side;
 struct MOD_CONNECTION {
     float *target_scalar;
     float amount;
-
+    float range;
     mod_connection_side side;
 
 };
 
 typedef struct MOD_CONNECTION mod_connection;
 
-//this modulates the value by: (1 * range) * target_scalar without modifying the target scalar
-inline float __attribute__((always_inline)) mod_modulate(mod_connection *mod, float value, float range) 
+ 
+
+
+/**
+ * @brief Modulates a given value based on the modulation connection.
+ *
+ * This function applies modulation to the input value using the specified modulation connection.
+ * The function is always inlined for performance reasons.
+ *
+ * @param mod Pointer to the modulation connection structure.
+ * @param value The input value to be modulated.
+ * @return value * mod->amount * mod-range * target scalar. Offset according to the mod side. For linear modulation between 0 and range, the target scalar should 1.
+ */
+inline float __attribute__((always_inline)) mod_modulate(mod_connection *mod, float value) 
 {
     switch (mod->side)
     {
     case MOD_CONNECTION_SIDE_NO_MOD:
-        return value;
+        return 0;
         break;
     case MOD_CONNECTION_SIDE_CENTER:
-        return value + mod->amount * (range * ( *(mod->target_scalar) - 0.5f));
+        return value * mod->amount * (mod->range * ( *(mod->target_scalar) - 0.5f));
         break;
     case MOD_CONNECTION_SIDE_RIGHT:
-        return value + mod->amount * (range * ( *(mod->target_scalar)));
+        return value * mod->amount * (mod->range * ( *(mod->target_scalar)));
         break;
     case MOD_CONNECTION_SIDE_LEFT:
-        return value + mod->amount * (range * ( 1-*(mod->target_scalar)));
+        return value * mod->amount * (mod->range * ( 1-*(mod->target_scalar)));
         break;
     }
     return value;
@@ -47,7 +59,7 @@ inline float __attribute__((always_inline)) mod_modulate(mod_connection *mod, fl
 void mod_write_to_mod_target(mod_connection *mod, float value);
 
 
-void mod_init_mod_connection(mod_connection *mod, float *target_scalar, mod_connection_side side);
+void mod_init_mod_connection(mod_connection *mod, float *target_scalar, float range, mod_connection_side side);
 
 
 
