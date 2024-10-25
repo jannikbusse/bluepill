@@ -26,6 +26,7 @@
         "modulator.h": "c",
         "folp.h": "c",
         "adc.h": "c",
-        "executor": "c"
+        "executor": "c",
+        "led.h": "c"
     }
 }

@@ -2,8 +2,8 @@
 
 
 volatile uint32_t outputBuffer[BUFF_SIZE];
-volatile uint8_t bufferHead = 0;
-volatile uint8_t bufferTail = 0;
+volatile uint16_t bufferHead = 0;
+volatile uint16_t bufferTail = 0;
 
 
 

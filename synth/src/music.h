@@ -16,12 +16,6 @@ void music_play(uint8_t nosc, inputState_t *in, audio_sample_t *out);
 
 
 
-inline __attribute__((always_inline)) void music_write_to_buffer(audio_sample_t *out)
-{
-    
-    outputBuffer[bufferHead++] = dac_rel_to_abs_voltage(out->left);
-    outputBuffer[bufferHead++] = dac_rel_to_abs_voltage(out->right);
-}   
 
 
 #endif

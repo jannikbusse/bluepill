@@ -65,4 +65,4 @@ bin/src/main.o: src/main.c ../libopencm3/include/libopencm3/stm32/rcc.h \
  src/processing/envelope.h src/processing/modulator.h \
  src/processing/modmatrix.h src/processing/../music.h \
  src/processing/lfo.h src/processing/../wavetable.h \
- src/processing/../osc.h
+ src/processing/../osc.h src/leds/led.h src/leds/../timer.h

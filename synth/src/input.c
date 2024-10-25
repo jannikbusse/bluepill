@@ -84,7 +84,7 @@ void input_update(inputState_t *in)
     for(int i = 0; i < NR_KEYS; i ++)
     {
         in->keys[i].event = KEY_EVENT_NOTHING;
-        if(inputPressed(inputMap[i]))
+        if(inputPressed(inputMap[i]) )
         {   
             if(in->activeKey == KEY_UNPRESSED)
             {
